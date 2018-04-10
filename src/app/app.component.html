@@ -1,0 +1,78 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Secure Package</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li [ngClass]="{'active': global.globalvars.current_component == 'login'}"><a routerLink="">Home</a></li>
+    </ul>
+    <ul class="nav navbar-nav">
+      <li [ngClass]="{'active': global.globalvars.current_component == 'items'}"><a routerLink="items">Items</a></li>
+    </ul>
+    <ul class="nav navbar-nav">
+      <li [ngClass]="{'active': global.globalvars.current_component == 'explorer'}"><a routerLink="">Explorer</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" [hidden]="global.globalvars.account_logged_in == null">
+      <li [ngClass]="{'active': global.globalvars.current_component == 'newitem'}">
+        <a (click)="newitem()" class="btn"><span class="glyphicon glyphicon-plus"></span> New item</a></li>
+      <li class="dropdown" [ngClass]="{'active': global.globalvars.current_component == 'itemmanager'}">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list"></span> Item manager <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a (click)="itemmanager('forsale')"><span class="glyphicon glyphicon-export"></span> Items for sale</a></li>
+          <li><a (click)="itemmanager('bought')"><span class="glyphicon glyphicon-import"></span> Bought items</a></li>
+          <li><a (click)="itemmanager('proposed')"><span class="glyphicon glyphicon-file"></span> Proposals</a></li>
+        </ul>
+      </li>
+      <li><a class="btn" data-toggle="modal" data-target="#accountModal"><span class="glyphicon glyphicon-user"></span> {{global.globalvars.account_logged_in}}</a></li>
+      <li><a (click)="logout()" class="btn"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="app_contents">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Modal -->
+<div id="accountModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><span class="glyphicon glyphicon-user"></span> Account details</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Account address</label>
+          <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_logged_in" disabled>
+        </div>
+        <div class="form-group">
+          <label>Full name</label>
+          <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_full_name" disabled>
+        </div>
+        <div class="form-group">
+          <label>Street address</label>
+          <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_street_address">
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_city">
+        </div>
+        <div class="form-group">
+          <label>Postal code</label>
+          <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_postal_code">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="updateUserInfo()" class="btn btn-success" data-dismiss="modal">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

@@ -1,0 +1,176 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+
+      <div class="row" *ngIf="manager_type == 'forsale'">
+        <div *ngFor="let item of itemdisplay">
+          <div class="alert alert-info">
+            <div class="row">
+              <div class="col-lg-4">
+                <img src={{item.image}} alt="800x600" border="0" class="item_image">
+              </div>
+              <div class="col-lg-8" >
+                <div class="row">
+                  <p><strong>{{item.title}}</strong></p>
+                </div>
+                <div class="row">
+                  <p><span class="glyphicon glyphicon-link"></span> {{item.agreement_id}}</p>
+                </div>
+                <div class="row">
+                  <p><span class="glyphicon glyphicon-credit-card"></span> {{item.price}} SEK</p>
+                </div>
+                <div class="row">
+                  <p><span class="glyphicon glyphicon-cog"></span> {{item.state}}</p>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row" align="center">
+              <div class="col-lg-4">
+                <button class="btn btn-primary manage_button" [disabled]="item.state != 'CREATED'" (click)="fetchItemTerms(item.agreement_id)" data-toggle="modal" data-target="#termsModal"><span class="glyphicon glyphicon-list-alt"></span> Manage proposals</button>
+              </div>
+              <div class="col-lg-4">
+                <button class="btn btn-primary manage_button" [disabled]="item.state != 'CREATED'" (click)="removeItem(item.agreement_id)"><span class="glyphicon glyphicon-remove"></span> Delete item</button>
+              </div>
+              <div class="col-lg-4">
+                <button class="btn btn-primary manage_button" [disabled]="item.state == 'CREATED'" (click)="moveToAgreement(item.agreement_id)"><span class="glyphicon glyphicon-search"></span> Agreement details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="manager_type == 'proposed'">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <div class="form-group">
+              <label>Show proposals</label>
+              <select class="form-control" [(ngModel)]="proposal_state_chosen">
+                <option selected="selected">PROPOSED</option>
+                <option>DENIED</option>
+              </select>
+            </div>
+          </div>
+          <div *ngFor="let terms of proposaldisplay">
+            <div *ngIf="terms.status == proposal_state_chosen">
+              <div class="alert" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': terms.status == 'DENIED'}">
+                <div class="form-group">
+                  <h3><span class="glyphicon glyphicon-tags"></span> <strong> {{terms.title}}</strong></h3><hr>
+                  <p><span class="glyphicon glyphicon-file"></span> <strong>Proposal number: </strong> {{terms.terms_id}}</p>
+                  <p><span class="glyphicon glyphicon-cog"></span> <strong>Proposal status: </strong> {{terms.status}}</p>
+                  <p><span class="glyphicon glyphicon-user"></span> <strong>Sold by: </strong> {{terms.seller_id}}</p>
+                  <p><span class="glyphicon glyphicon-credit-card"></span> <strong>Proposed price: </strong> {{terms.price}} SEK</p>
+                  <p><span class="glyphicon glyphicon-transfer"></span> <strong>Postage due within: </strong> {{terms.postage_time}} hours</p>
+                  <p> <span *ngIf="terms.accelerometer !== null" class="glyphicon glyphicon-ok"></span>
+                    <span *ngIf="terms.accelerometer === null" class="glyphicon glyphicon-remove"></span>
+                    <strong>Accelerometer</strong> <strong *ngIf="terms.accelerometer !== null">({{terms.accelerometer}} G)</strong></p>
+                  <p> <span *ngIf="terms.pressure_low !== null" class="glyphicon glyphicon-ok"></span>
+                    <span *ngIf="terms.pressure_low === null" class="glyphicon glyphicon-remove"></span>
+                    <strong>Pressure sensor</strong> <strong *ngIf="terms.pressure_low !== null">({{terms.pressure_low}} to {{terms.pressure_high}} PSI)</strong></p>
+                  <p> <span *ngIf="terms.humidity_low !== null" class="glyphicon glyphicon-ok"></span>
+                    <span *ngIf="terms.humidity_low === null" class="glyphicon glyphicon-remove"></span>
+                    <strong>Humidity sensor</strong> <strong *ngIf="terms.humidity_low !== null">({{terms.humidity_low}} to {{terms.humidity_high}} %)</strong></p>
+                  <p> <span *ngIf="terms.temperature_low !== null" class="glyphicon glyphicon-ok"></span>
+                    <span *ngIf="terms.temperature_low === null" class="glyphicon glyphicon-remove"></span>
+                    <strong>Temperature sensor</strong> <strong *ngIf="terms.temperature_low !== null">({{terms.temperature_low}} to {{terms.temperature_high}} &#8451;)</strong></p>
+                  <p> <span *ngIf="terms.gps !== 0" class="glyphicon glyphicon-ok"></span>
+                    <span *ngIf="terms.humidity_low === 0" class="glyphicon glyphicon-remove"></span>
+                    <strong>GPS</strong>
+                  </p>
+                </div>
+                <div class="form-group" align="center" *ngIf="terms.status == 'PROPOSED'">
+                  <button class="btn btn-danger" (click)="removeProposal(terms.terms_id)">Cancel proposal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="manager_type == 'bought'">
+        <div class="col-lg-12">
+          <div *ngFor="let item of purchasedisplay" class="alert alert-info">
+            <div class="row" (click)="moveToAgreement(item.agreement_id)">
+              <div class="col-lg-4">
+                <img src={{item.image}} alt="800x600" border="0" class="item_image">
+              </div>
+              <div class="col-lg-8" >
+                <div class="row">
+                  <p><strong>{{item.title}}</strong></p>
+                </div>
+                <div class="row">
+                  <p><span class="glyphicon glyphicon-link"></span> {{item.agreement_id}}</p>
+                </div>
+                <div class="row">
+                  <p><span class="glyphicon glyphicon-credit-card"></span> {{item.price}} SEK</p>
+                </div>
+                <div class="row">
+                  <p><span class="glyphicon glyphicon-cog"></span> {{item.state}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="termsModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Current proposals</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="proposal_states">Show proposals</label>
+          <select class="form-control" id="proposal_states" [(ngModel)]="proposal_state_chosen">
+            <option selected="selected">PROPOSED</option>
+            <option>DENIED</option>
+          </select>
+        </div>
+        <div *ngFor="let terms of item_terms">
+          <div class="alert" [hidden]="terms.status != proposal_state_chosen" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': terms.status == 'DENIED'}">
+            <h4><span class="glyphicon glyphicon-file"></span> <strong>Proposal #{{terms.terms_id}}</strong></h4>
+            <p><span class="glyphicon glyphicon-cog"></span> <strong>Status: {{terms.status}}</strong></p>
+            <p><span class="glyphicon glyphicon-user"></span> <strong>Proposed by: </strong>{{terms.author_account}}</p>
+            <p><span class="glyphicon glyphicon-credit-card"></span> <strong>Price: </strong>{{terms.price}} SEK</p>
+            <p><span class="glyphicon glyphicon-transfer"></span> <strong>Postage due within: </strong> {{terms.postage_time}} hours</p>
+            <p> <span *ngIf="terms.accelerometer !== null" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.accelerometer === null" class="glyphicon glyphicon-remove"></span>
+              <strong>Accelerometer</strong> <strong *ngIf="terms.accelerometer !== null">({{terms.accelerometer}} G)</strong></p>
+            <p> <span *ngIf="terms.pressure_low !== null" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.pressure_low === null" class="glyphicon glyphicon-remove"></span>
+              <strong>Pressure sensor</strong> <strong *ngIf="terms.pressure_low !== null">({{terms.pressure_low}} to {{terms.pressure_high}} PSI)</strong></p>
+            <p> <span *ngIf="terms.humidity_low !== null" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.humidity_low === null" class="glyphicon glyphicon-remove"></span>
+              <strong>Humidity sensor</strong> <strong *ngIf="terms.humidity_low !== null">({{terms.humidity_low}} to {{terms.humidity_high}} %)</strong></p>
+            <p> <span *ngIf="terms.temperature_low !== null" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.temperature_low === null" class="glyphicon glyphicon-remove"></span>
+              <strong>Temperature sensor</strong> <strong *ngIf="terms.temperature_low !== null">({{terms.temperature_low}} to {{terms.temperature_high}} &#8451;)</strong></p>
+            <p> <span *ngIf="terms.gps !== 0" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.humidity_low === 0" class="glyphicon glyphicon-remove"></span>
+              <strong>GPS</strong>
+            </p>
+            <div *ngIf="terms.status == 'PROPOSED'">
+              <hr>
+              <button class="btn btn-success" (click)="acceptProposal(terms.terms_id, terms.agreement_id, terms.author_account)"><span class="glyphicon glyphicon-ok"></span> Accept</button>
+              <button class="btn btn-danger" (click)="rejectProposal(terms.terms_id)"><span class="glyphicon glyphicon-remove"></span> Reject</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

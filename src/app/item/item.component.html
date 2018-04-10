@@ -1,0 +1,223 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <h3><span class="glyphicon glyphicon-tags"></span> <strong> {{item_item_params.title}}</strong></h3>
+            <span class="glyphicon glyphicon-link"></span> {{item_agreement_params.agreement_id}}&nbsp;
+            <span class="glyphicon glyphicon-time"></span> {{item_agreement_params.date_created}}
+          </div>
+          <div class="alert alert-info">
+            <img src={{item_images[0].image}} alt="800x600" border="0" class="item_image">
+            <div id="item_desc">
+              <p><strong>Description: </strong>{{item_item_params.description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <h4><span class="glyphicon glyphicon-file"></span> <strong>Initial terms</strong></h4><hr>
+            <div *ngFor="let terms of item_terms">
+              <div *ngIf="terms.status === 'INITIAL'">
+                <p><span class="glyphicon glyphicon-user"></span> <strong>Seller account: </strong> {{item_agreement_params.seller_id}}</p>
+                <p><span class="glyphicon glyphicon-credit-card"></span> <strong>Initial price: </strong> {{terms.price}} SEK</p>
+                <p><span class="glyphicon glyphicon-transfer"></span> <strong>Postage due within: </strong> {{terms.postage_time}} hours</p>
+                <p> <span *ngIf="terms.accelerometer !== null" class="glyphicon glyphicon-ok"></span>
+                  <span *ngIf="terms.accelerometer === null" class="glyphicon glyphicon-remove"></span>
+                  <strong>Accelerometer</strong> <strong *ngIf="terms.accelerometer !== null">({{terms.accelerometer}} G)</strong></p>
+                <p> <span *ngIf="terms.pressure_low !== null" class="glyphicon glyphicon-ok"></span>
+                  <span *ngIf="terms.pressure_low === null" class="glyphicon glyphicon-remove"></span>
+                  <strong>Pressure sensor</strong> <strong *ngIf="terms.pressure_low !== null">({{terms.pressure_low}} to {{terms.pressure_high}} PSI)</strong></p>
+                <p> <span *ngIf="terms.humidity_low !== null" class="glyphicon glyphicon-ok"></span>
+                  <span *ngIf="terms.humidity_low === null" class="glyphicon glyphicon-remove"></span>
+                  <strong>Humidity sensor</strong> <strong *ngIf="terms.humidity_low !== null">({{terms.humidity_low}} to {{terms.humidity_high}} %)</strong></p>
+                <p> <span *ngIf="terms.temperature_low !== null" class="glyphicon glyphicon-ok"></span>
+                  <span *ngIf="terms.temperature_low === null" class="glyphicon glyphicon-remove"></span>
+                  <strong>Temperature sensor</strong> <strong *ngIf="terms.temperature_low !== null">({{terms.temperature_low}} to {{terms.temperature_high}} &#8451;)</strong></p>
+                <p> <span *ngIf="terms.gps !== 0" class="glyphicon glyphicon-ok"></span>
+                  <span *ngIf="terms.humidity_low === 0" class="glyphicon glyphicon-remove"></span>
+                  <strong>GPS</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <div class="form-group">
+              <button [disabled]="item_terms.length === 1" class="btn btn-default form-control"  data-toggle="modal" data-target="#termsModal" [ngClass]="{'disabled': item_terms.length === 1}">View proposals ({{item_terms.length-1}})</button>
+            </div>
+            <div class="form-group">
+              <button [disabled]="item_agreement_params.seller_id == global.globalvars.account_logged_in" class="btn btn-default form-control" data-toggle="modal" data-target="#proposalModal" [ngClass]="{'disabled': item_agreement_params.seller_id == global.globalvars.account_logged_in}">Make a proposal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="proposalModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><span class="glyphicon glyphicon-file"></span> Propose terms</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="terms_id">Identification number</label>
+          <input type="text" class="form-control" [(ngModel)]="terms_identification" id="terms_id" disabled>
+        </div>
+
+        <div class="form-group">
+          <label for="terms_price">Price</label>
+          <input type="text" class="form-control" id="terms_price" [(ngModel)]="terms_item_price">
+        </div>
+
+        <div class="form-group">
+          <label for="terms_postage">Postage due</label>
+          <input type="text" class="form-control" id="terms_postage" [(ngModel)]="terms_item_postage">
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+          <button class="btn btn-primary sensor-select" (click)="terms_accelerometer=true" *ngIf="!terms_accelerometer">Include accelerometer</button>
+          <div class="row" *ngIf="terms_accelerometer">
+            <div class="col-lg-4">
+              <button class="btn btn-danger sensor-select" (click)="terms_accelerometer=false; sensor_accelerometer=null;">Exclude</button>
+            </div>
+            <div class="col-lg-8">
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="sensor_accelerometer" placeholder="Accelerometer threshold">
+                <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>G</button></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary sensor-select" (click)="terms_pressure=true" *ngIf="!terms_pressure">Include pressure sensor</button>
+          <div class="row" *ngIf="terms_pressure">
+            <div class="col-lg-4">
+              <button class="btn btn-danger sensor-select" (click)="terms_pressure=false; sensor_pressure_low=null; sensor_pressure_high=null;">Exclude</button>
+            </div>
+            <div class="col-lg-8">
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="sensor_pressure_low" placeholder="Min. pressure">
+                <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>PSI</button></span>
+                <span class="input-group-btn" style="width:0px;"></span>
+                <input type="text" class="form-control" [(ngModel)]="sensor_pressure_high" placeholder="Max. pressure">
+                <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>PSI</button></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary sensor-select" (click)="terms_humidity=true" *ngIf="!terms_humidity">Include humidity sensor</button>
+          <div class="row" *ngIf="terms_humidity">
+            <div class="col-lg-4">
+              <button class="btn btn-danger sensor-select" (click)="terms_humidity=false; sensor_humidity_low=null; sensor_humidity_high=null;">Exclude</button>
+            </div>
+            <div class="col-lg-8">
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="sensor_humidity_low" placeholder="Min. humidity">
+                <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>%</button></span>
+                <span class="input-group-btn" style="width:0px;"></span>
+                <input type="text" class="form-control" [(ngModel)]="sensor_humidity_high" placeholder="Max. humidity">
+                <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>%</button></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary sensor-select" (click)="terms_temperature=true" *ngIf="!terms_temperature">Include temp sensor</button>
+          <div class="row" *ngIf="terms_temperature">
+            <div class="col-lg-4">
+              <button class="btn btn-danger sensor-select" (click)="terms_temperature=false; sensor_temperature_low=null; sensor_temperature_high=null;">Exclude</button>
+            </div>
+            <div class="col-lg-8">
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="sensor_temperature_low" placeholder="Min. temp">
+                <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>&#8451;</button></span>
+                <input type="text" class="form-control" [(ngModel)]="sensor_temperature_high" placeholder="Max. temp">
+                <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>&#8451;</button></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary sensor-select" (click)="terms_gps = true" *ngIf="!terms_gps">Include GPS sensor</button>
+          <button class="btn btn-danger sensor-select" (click)="terms_gps = false" *ngIf="terms_gps">Exclude GPS sensor</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="proposeTerms()">Propose terms</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="termsModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Current proposals</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="proposal_states">Show proposals</label>
+          <select class="form-control" id="proposal_states" [(ngModel)]="proposal_state_chosen">
+            <option selected="selected">PROPOSED</option>
+            <option>DENIED</option>
+          </select>
+        </div>
+        <div *ngFor="let terms of item_terms">
+          <div class="alert" [hidden]="terms.status != proposal_state_chosen" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': terms.status == 'DENIED'}">
+            <h4><span class="glyphicon glyphicon-file"></span> <strong>Proposal #{{terms.terms_id}}</strong></h4>
+            <p><span class="glyphicon glyphicon-cog"></span> <strong>Status: {{terms.status}}</strong></p>
+            <p><span class="glyphicon glyphicon-user"></span> <strong>Proposed by: </strong>{{terms.author_account}}</p>
+            <p><span class="glyphicon glyphicon-credit-card"></span> <strong>Price: </strong>{{terms.price}} SEK</p>
+            <p><span class="glyphicon glyphicon-transfer"></span> <strong>Postage due within: </strong> {{terms.postage_time}} hours</p>
+            <p> <span *ngIf="terms.accelerometer !== null" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.accelerometer === null" class="glyphicon glyphicon-remove"></span>
+              <strong>Accelerometer</strong> <strong *ngIf="terms.accelerometer !== null">({{terms.accelerometer}} G)</strong></p>
+            <p> <span *ngIf="terms.pressure_low !== null" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.pressure_low === null" class="glyphicon glyphicon-remove"></span>
+              <strong>Pressure sensor</strong> <strong *ngIf="terms.pressure_low !== null">({{terms.pressure_low}} to {{terms.pressure_high}} PSI)</strong></p>
+            <p> <span *ngIf="terms.humidity_low !== null" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.humidity_low === null" class="glyphicon glyphicon-remove"></span>
+              <strong>Humidity sensor</strong> <strong *ngIf="terms.humidity_low !== null">({{terms.humidity_low}} to {{terms.humidity_high}} %)</strong></p>
+            <p> <span *ngIf="terms.temperature_low !== null" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.temperature_low === null" class="glyphicon glyphicon-remove"></span>
+              <strong>Temperature sensor</strong> <strong *ngIf="terms.temperature_low !== null">({{terms.temperature_low}} to {{terms.temperature_high}} &#8451;)</strong></p>
+            <p> <span *ngIf="terms.gps !== 0" class="glyphicon glyphicon-ok"></span>
+              <span *ngIf="terms.humidity_low === 0" class="glyphicon glyphicon-remove"></span>
+              <strong>GPS</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,136 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+
+      <div class="row" *ngIf="item_defined === false">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <h3><span class="glyphicon glyphicon-plus"></span> New item</h3><hr>
+            <div class="form-group">
+              <p>Identification number</p>
+              <input type="text" class="form-control" id="item_id" disabled [(ngModel)]="item_id">
+            </div>
+            <div class="form-group">
+              <p>Title</p>
+              <input type="text" class="form-control" id="item_title" [(ngModel)]="item_title">
+            </div>
+            <div class="form-group">
+              <p>Description</p>
+              <textarea class="form-control" id="item_description" [(ngModel)]="item_description"></textarea>
+            </div>
+            <div class="form-group">
+              <p>Image URL</p>
+              <input type="text" class="form-control" id="item_image" [(ngModel)]="item_image">
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <button class="btn btn-success pull-right" (click)="item_defined = true"><span class="glyphicon glyphicon-arrow-right"></span> Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="item_defined === true">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <h3><span class="glyphicon glyphicon-cog"></span> Propose terms</h3>
+            <hr>
+            <div class="form-group">
+              <p>Terms identification number</p>
+              <input type="text" class="form-control" id="terms_id" disabled [(ngModel)]="terms_id">
+            </div>
+            <div class="form-group">
+              <p>Price</p>
+              <input type="text" class="form-control" id="terms_price" [(ngModel)]="terms_price">
+            </div>
+            <div class="form-group">
+              <p>Shipment deadline (hours)</p>
+              <input type="text" class="form-control" id="terms_shipmentdeadline" [(ngModel)]="terms_shipmentdeadline">
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+              <button class="btn btn-primary sensor-select" (click)="terms_accelerometer=true" *ngIf="!terms_accelerometer">Include accelerometer</button>
+              <div class="row" *ngIf="terms_accelerometer">
+                <div class="col-lg-4">
+                  <button class="btn btn-danger sensor-select" (click)="terms_accelerometer=false; sensor_accelerometer=null;">Exclude</button>
+                </div>
+                <div class="col-lg-8">
+                  <div class="input-group">
+                    <input type="text" class="form-control" [(ngModel)]="sensor_accelerometer" placeholder="Accelerometer threshold">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>G</button></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary sensor-select" (click)="terms_pressure=true" *ngIf="!terms_pressure">Include pressure sensor</button>
+              <div class="row" *ngIf="terms_pressure">
+                <div class="col-lg-4">
+                  <button class="btn btn-danger sensor-select" (click)="terms_pressure=false; sensor_pressure_low=null; sensor_pressure_high=null;">Exclude</button>
+                </div>
+                <div class="col-lg-8">
+                  <div class="input-group">
+                    <input type="text" class="form-control" [(ngModel)]="sensor_pressure_low" placeholder="Min. pressure">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>PSI</button></span>
+                    <input type="text" class="form-control" [(ngModel)]="sensor_pressure_high" placeholder="Max. pressure">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>PSI</button></span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary sensor-select" (click)="terms_humidity=true" *ngIf="!terms_humidity">Include humidity sensor</button>
+              <div class="row" *ngIf="terms_humidity">
+                <div class="col-lg-4">
+                  <button class="btn btn-danger sensor-select" (click)="terms_humidity=false; sensor_humidity_low=null; sensor_humidity_high=null;">Exclude</button>
+                </div>
+                <div class="col-lg-8">
+                  <div class="input-group">
+                    <input type="text" class="form-control" [(ngModel)]="sensor_humidity_low" placeholder="Min. humidity">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>%</button></span>
+                    <span class="input-group-btn" style="width:0px;"></span>
+                    <input type="text" class="form-control" [(ngModel)]="sensor_humidity_high" placeholder="Max. humidity">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>%</button></span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary sensor-select" (click)="terms_temperature=true" *ngIf="!terms_temperature">Include temp sensor</button>
+              <div class="row" *ngIf="terms_temperature">
+                <div class="col-lg-4">
+                  <button class="btn btn-danger sensor-select" (click)="terms_temperature=false; sensor_temperature_low=null; sensor_temperature_high=null;">Exclude</button>
+                </div>
+                <div class="col-lg-8">
+                  <div class="input-group">
+                    <input type="text" class="form-control" [(ngModel)]="sensor_temperature_low" placeholder="Min. temp">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>&#8451;</button></span>
+                    <input type="text" class="form-control" [(ngModel)]="sensor_temperature_high" placeholder="Max. temp">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>&#8451;</button></span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary sensor-select" (click)="terms_gps = true" *ngIf="!terms_gps">Include GPS sensor</button>
+              <button class="btn btn-danger sensor-select" (click)="terms_gps = false" *ngIf="terms_gps">Exclude GPS sensor</button>
+            </div>
+
+            <button class="btn btn-danger" (click)="item_defined = false"><span class="glyphicon glyphicon-arrow-left"></span> Previous</button>
+            <button class="btn btn-success pull-right" (click)="addNewItem()"><span class="glyphicon glyphicon-plus"></span> Add new item</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

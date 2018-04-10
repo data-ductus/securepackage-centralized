@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+.app_contents {
+  position: absolute;
+  top: 70px;
+}
+
+h3 {
+  margin-top: 5px;
+}
+
+.generate-menu-label {
+  width: 90px;
+}
+
+.alert-info {
+  border: 1px solid lightgrey;
+}

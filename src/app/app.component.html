@@ -10,7 +10,7 @@
       <li [ngClass]="{'active': global.globalvars.current_component == 'items'}"><a routerLink="items">Items</a></li>
     </ul>
     <ul class="nav navbar-nav">
-      <li [ngClass]="{'active': global.globalvars.current_component == 'explorer'}"><a routerLink="">Explorer</a></li>
+      <li [ngClass]="{'active': global.globalvars.current_component == 'explorer'}"><a routerLink="explorer">Explorer</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right" [hidden]="global.globalvars.account_logged_in == null">
       <li [ngClass]="{'active': global.globalvars.current_component == 'newitem'}">

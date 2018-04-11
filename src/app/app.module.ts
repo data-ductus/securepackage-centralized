@@ -19,6 +19,7 @@ import { AgreementComponent } from './agreement/agreement.component';
 import { AmChartsModule } from '@amcharts/amcharts3-angular';
 
 import { AgmCoreModule } from '@agm/core';
+import { ExplorerComponent } from './explorer/explorer.component';
 
 
 const appRoutes: Routes = [
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
   { path: 'itemmanager/:action', component: ItemManagerComponent},
   { path: 'newitem', component: NewItemComponent},
   { path: 'item/:id', component: ItemComponent},
-  { path: 'agreement/:id', component: AgreementComponent}];
+  { path: 'agreement/:id', component: AgreementComponent},
+  { path: 'explorer', component: ExplorerComponent}];
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     ItemManagerComponent,
     NewItemComponent,
     ItemComponent,
-    AgreementComponent
+    AgreementComponent,
+    ExplorerComponent
   ],
   imports: [
     BrowserModule,

@@ -29,7 +29,8 @@ const appRoutes: Routes = [
   { path: 'newitem', component: NewItemComponent},
   { path: 'item/:id', component: ItemComponent},
   { path: 'agreement/:id', component: AgreementComponent},
-  { path: 'explorer', component: ExplorerComponent}];
+  { path: 'explorer', component: ExplorerComponent},
+  { path: 'explorer/:id', component: ExplorerComponent}];
 
 @NgModule({
   declarations: [

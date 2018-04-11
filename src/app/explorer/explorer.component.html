@@ -1,0 +1,98 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <h3>Search events, agreements, users, etc.</h3>
+            <div class="form-group input-group">
+              <input type="text" class="form-control" placeholder="Enter address here...">
+              <span class="input-group-btn"><button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="address == null">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <h3>Recent events</h3>
+            <div class="tb">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Event Type</th>
+                  <th scope="col">Timestamp</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let event of recent_events" style="cursor: pointer" (click)="explore_address(event.event_id)">
+                  <th scope="row">{{event.event_id}}</th>
+                  <td>{{event.event_type}}</td>
+                  <td>{{event.timestamp}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="address == null">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <h3>Recent agreements</h3>
+            <div class="tb">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">State</th>
+                  <th scope="col">Timestamp</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let agreement of recent_agreements" style="cursor: pointer">
+                  <th scope="row">{{agreement.agreement_id}}</th>
+                  <td>{{agreement.state}}</td>
+                  <td>{{agreement.date_created}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--<div class="row" *ngIf="address == null">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <h3>Recent terms</h3>
+            <div class="tb">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Agreement</th>
+                  <th scope="col">Timestamp</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let terms of recent_terms" style="cursor: pointer">
+                  <th scope="row">{{terms.terms_id}}</th>
+                  <td>{{terms.agreement_id}}</td>
+                  <td>{{terms.timestamp}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>-->
+
+    </div>
+  </div>
+</div>
+

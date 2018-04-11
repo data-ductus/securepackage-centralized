@@ -15,3 +15,7 @@ h3 {
 .alert-info {
   border: 1px solid lightgrey;
 }
+
+thead {
+  background-color: lightgrey;
+}

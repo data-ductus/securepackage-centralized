@@ -29,6 +29,7 @@
     "core-js": "^2.5.5",
     "fast-sha256": "^1.1.0",
     "jquery": "^3.3.1",
+    "jsonformatter": "^0.7.0",
     "mysql": "^2.15.0",
     "npm": "^5.8.0",
     "openpgp": "^3.0.4",

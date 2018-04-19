@@ -7,8 +7,8 @@
           <div class="alert alert-info">
             <h3>Search events, agreements, users, etc.</h3>
             <div class="form-group input-group">
-              <input type="text" class="form-control" placeholder="Enter address here...">
-              <span class="input-group-btn"><button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+              <input type="text" class="form-control" placeholder="Enter address here..." [(ngModel)]="address_search">
+              <span class="input-group-btn"><button class="btn btn-default" type="button" (click)="explore_address(address_search)"><span class="glyphicon glyphicon-search"></span></button></span>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let agreement of recent_agreements" style="cursor: pointer">
+                <tr *ngFor="let agreement of recent_agreements" style="cursor: pointer" (click)="explore_address(agreement.agreement_id)">
                   <th scope="row">{{agreement.agreement_id}}</th>
                   <td>{{agreement.state}}</td>
                   <td>{{agreement.date_created}}</td>
@@ -62,6 +62,20 @@
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="alert alert-info" *ngIf="address_type != null">
+            <h4><strong><span class="glyphicon glyphicon-list-alt"></span> 0x{{address}}</strong></h4>
+            <pre>"address_type": {{address_type}}</pre>
+            <pre>{{address_payload | json}}</pre>
+          </div>
+          <div class="alert alert-info" *ngIf="address_type == null && address != null">
+            <h4><strong><span class="glyphicon glyphicon-list-alt"></span> 0x{{address}}</strong></h4>
+            <pre>"address_type": UNDEFINED</pre>
           </div>
         </div>
       </div>
@@ -91,6 +105,8 @@
           </div>
         </div>
       </div>-->
+
+
 
     </div>
   </div>

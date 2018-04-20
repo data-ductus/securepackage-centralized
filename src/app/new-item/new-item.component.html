@@ -44,11 +44,23 @@
             </div>
             <div class="form-group">
               <p>Price</p>
-              <input type="text" class="form-control" id="terms_price" [(ngModel)]="terms_price">
+              <div class="form-group input-group">
+                <input type="text" class="form-control" id="terms_price" [(ngModel)]="terms_price">
+                <span class="input-group-btn">
+                  <select class="btn btn-default generate-menu-label">
+                    <option selected>SEK</option>
+                    <option>USD</option>
+                    <option>ETH</option>
+                  </select>
+                </span>
+              </div>
             </div>
             <div class="form-group">
               <p>Shipment deadline (hours)</p>
-              <input type="text" class="form-control" id="terms_shipmentdeadline" [(ngModel)]="terms_shipmentdeadline">
+              <div class="form-group input-group">
+                <input type="text" class="form-control" id="terms_shipmentdeadline" [(ngModel)]="terms_shipmentdeadline">
+                <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled>hours</button></span>
+              </div>
             </div>
 
             <hr>

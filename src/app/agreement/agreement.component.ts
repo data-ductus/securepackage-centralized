@@ -25,6 +25,7 @@ export class AgreementComponent implements OnInit {
   item_terms;
 
   logistics_params;
+  agreement_events;
 
   private tempChart: AmChart;
   private pressChart: AmChart;
@@ -113,7 +114,9 @@ export class AgreementComponent implements OnInit {
         this.direction = "RETURN";
       }
       this.api.serverRequest(request_payload, "FETCH_AGREEMENT_ITEM").then(response => this.item_item_params = response);
-      this.api.serverRequest(request_payload, "FETCH_AGREEMENT_TERMS").then(response => {this.item_terms = response[0];});
+      this.api.serverRequest(request_payload, "FETCH_AGREEMENT_TERMS").then(response => this.item_terms = response[0]);
+      this.api.serverRequest(request_payload, "FETCH_ADDRESS_EVENTS").then(response => this.agreement_events = response);
+
       this.api.serverRequest({agreement_id: this.agreement_id, direction: this.direction}, "FETCH_LOGISTICS_PARAMETERS").then(response => {
         this.logistics_params = response;
         this.api.serverRequest({kolli_id: this.logistics_params.kolli_id}, "FETCH_SIMULATION_SENSORS").then(data => {
@@ -195,5 +198,9 @@ export class AgreementComponent implements OnInit {
   rejectReturn = function () {
     this.api.serverRequest({agreement_id: this.agreement_id, state: "CLERK"}, "ALTER_STATE").then();
     this.router.navigate(['itemmanager', 'bought']);
+  };
+
+  explore_address = function (address) {
+    this.router.navigate(['explorer', address]);
   }
 }

@@ -21,14 +21,14 @@ export class LoginComponent implements OnInit {
   generate_password = '';
   generate_name = '';
 
-  login_address = 'f69953c171c4e1e765af94855a474eece47d57e5'; //For testing
+  //login_address = 'f69953c171c4e1e765af94855a474eece47d57e5'; //For testing
   //login_address = 'd2692e662e8f64664b8405ba182a0864dbf5d74e'; //For testing
   //login_address = '754f6cfb921efa9f78964a013f6879b7af771f2a'; //For testing
-  //login_address = '0fe2e46e21c594cd6fe08e1a25039ebba48977ca'; // For testing
-  login_password = 'rlkjfnrlre5555'; //For testing
+  login_address = '0fe2e46e21c594cd6fe08e1a25039ebba48977ca'; // For testing
+  //login_password = 'rlkjfnrlre5555'; //For testing
   //login_password = 'dlkmcqp343444'; //For testing
   //login_password = 'af4857af4857'; //For testing
-  //login_password = 'dlmewdwporew4'; // For testing
+  login_password = 'dlmewdwporew4'; // For testing
 
   constructor(private http: HttpClient, private api: ApiService, private route: ActivatedRoute, private router: Router, private global: GlobalvarsService) { }
 
@@ -44,21 +44,17 @@ export class LoginComponent implements OnInit {
   generateKeys = function() {
     this.generate_seed = 'Generating...';
     this.http.get(this.seedApi).subscribe(data => {
-      const seedrequest = data;
+      const seed_request = data;
       this.generate_seed = '';
-      for (let i = 0; i < seedrequest.length; i++) {
-        this.generate_seed = this.generate_seed + seedrequest[i]['word'].toString() + " ";
+      for (let i = 0; i < seed_request.length; i++) {
+        this.generate_seed = this.generate_seed + seed_request[i]['word'].toString() + " ";
       }
       this.generate_seed = this.generate_seed.toLowerCase();
-      console.log(this.generate_seed);
       let bytePrivateKey = sha256(stringToByteArray(this.generate_seed));
       let bytePublicKey = sha256(sha256(bytePrivateKey));
       this.generate_privateKey = byteArrayToHexString(bytePrivateKey);
       this.generate_publicKey = byteArrayToHexString(bytePublicKey);
       this.generate_address = getAddress(this.generate_publicKey);
-      console.log("0x" + this.generate_privateKey);
-      console.log("0x" + this.generate_publicKey);
-      console.log("0x" + this.generate_address);
     });
   };
 

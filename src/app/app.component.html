@@ -18,9 +18,9 @@
       <li class="dropdown" [ngClass]="{'active': global.globalvars.current_component == 'itemmanager'}">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list"></span> Item manager <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a (click)="itemmanager('forsale')"><span class="glyphicon glyphicon-export"></span> Items for sale</a></li>
+          <li><a (click)="itemmanager('forsale')"><span class="glyphicon glyphicon-export"></span> My adverts</a></li>
           <li><a (click)="itemmanager('bought')"><span class="glyphicon glyphicon-import"></span> Bought items</a></li>
-          <li><a (click)="itemmanager('proposed')"><span class="glyphicon glyphicon-file"></span> Proposals</a></li>
+          <li><a (click)="itemmanager('proposed')"><span class="glyphicon glyphicon-file"></span> My proposals</a></li>
         </ul>
       </li>
       <li><a class="btn" data-toggle="modal" data-target="#accountModal"><span class="glyphicon glyphicon-user"></span> {{global.globalvars.account_logged_in}}</a></li>

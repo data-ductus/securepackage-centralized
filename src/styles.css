@@ -12,13 +12,14 @@ h3 {
   width: 90px;
 }
 
-.alert-info {
+.alert {
   border: 1px solid darkgray;
+  border-radius: 0px;
 }
 
 thead {
   border: 1px solid darkgray;
-  background-color: lightgrey;
+  background-color: #d9edf7;
 }
 
 table {

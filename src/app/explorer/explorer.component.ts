@@ -17,6 +17,7 @@ export class ExplorerComponent implements OnInit {
 
   address_payload;
   address_type;
+  address_events;
 
   recent_events = {};
   recent_agreements = {};
@@ -28,11 +29,14 @@ export class ExplorerComponent implements OnInit {
         this.address = params['id'];
         this.api.serverRequest({id: this.address}, "FETCH_ADDRESS"). then(data => {
           if (data["address_type"] != null) {
-            this.address_type = JSON.stringify(data["address_type"]);
+            this.address_type = data["address_type"];
             this.address_payload = data["payload"];
+            if (data["address_type"] == 'AGREEMENT') {
+              this.api.serverRequest({id: this.address}, "FETCH_ADDRESS_EVENTS"). then(data => this.address_events = data);
+            }
           }
           else {
-            this.address_type = "UNDEFINED"
+            this.address_type = "UNDEFINED";
             this.address_payload = null;
           }
         });

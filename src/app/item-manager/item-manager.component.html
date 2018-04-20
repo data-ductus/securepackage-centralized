@@ -3,6 +3,9 @@
     <div class="col-lg-6 col-lg-offset-3">
 
       <div class="row" *ngIf="manager_type == 'forsale'">
+        <div *ngIf="itemdisplay == null">
+          <div class="alert alert-info">XDXDXDXD</div>
+        </div>
         <div *ngFor="let item of itemdisplay">
           <div class="alert alert-info">
             <div class="row">

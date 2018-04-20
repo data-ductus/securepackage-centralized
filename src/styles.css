@@ -13,9 +13,18 @@ h3 {
 }
 
 .alert-info {
-  border: 1px solid lightgrey;
+  border: 1px solid darkgray;
 }
 
 thead {
+  border: 1px solid darkgray;
   background-color: lightgrey;
+}
+
+table {
+  border: 1px solid darkgray;
+}
+
+a {
+  cursor: pointer;
 }

@@ -5,27 +5,15 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="alert alert-info">
-            <div class="row">
-              <div class="col-lg-12">
-                <h4><strong>Existing users</strong></h4>
-                <div class="form-group input-group">
-                  <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><span class="glyphicon glyphicon-user"></span></button></span>
-                  <input type="text" class="form-control" id="login_usr" [(ngModel)]="login_address">
-                </div>
-              </div>
+            <h4><strong>Existing users</strong></h4>
+            <div class="form-group input-group">
+              <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><span class="glyphicon glyphicon-user"></span></button></span>
+              <input type="text" class="form-control" id="login_usr" [(ngModel)]="login_address">
             </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="form-group input-group">
-                  <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><span class="glyphicon glyphicon-lock"></span></button></span>
-                  <input type="password" class="form-control" id="login_pwd" [(ngModel)]="login_password">
-                </div>
-              </div>
-            </div>
-            <div class="row" align="center">
-              <div class="col-lg-12">
-                <button class="btn btn-success" (click)="login()">Log in to Secure Package</button>
-              </div>
+            <div class="form-group input-group">
+              <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><span class="glyphicon glyphicon-lock"></span></button></span>
+              <input type="password" class="form-control" id="login_pwd" [(ngModel)]="login_password">
+              <span class="input-group-btn"><button class="btn btn-success generate-menu-label" type="button" (click)="login()">Log in</button></span>
             </div>
           </div>
         </div>
@@ -34,44 +22,24 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="alert alert-info">
-            <div class="row">
-              <div class="col-lg-12">
-                <h4><strong>Generate new account</strong></h4>
-                <div class="form-group input-group">
-                  <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled><strong>Seed</strong></button></span>
-                  <input disabled class="form-control" id="new_seed" [(ngModel)]="generate_seed">
-                  <span class="input-group-btn"><button class="btn btn-default" (click)="generateKeys()"><span class="glyphicon glyphicon-refresh"></span></button></span>
-                </div>
-              </div>
+            <h4><strong>Generate new account</strong></h4>
+            <div class="form-group input-group">
+              <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled><strong>Seed</strong></button></span>
+              <input disabled class="form-control" id="new_seed" [(ngModel)]="generate_seed">
+              <span class="input-group-btn"><button class="btn btn-default" (click)="generateKeys()"><span class="glyphicon glyphicon-refresh"></span></button></span>
             </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="form-group input-group">
-                  <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled><strong>Address</strong></button></span>
-                  <input type="text" class="form-control" id="new_addr" disabled [(ngModel)]="generate_address">
-                </div>
-              </div>
+            <div class="form-group input-group">
+              <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled><strong>Address</strong></button></span>
+              <input type="text" class="form-control" id="new_addr" disabled [(ngModel)]="generate_address">
             </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="form-group input-group">
-                  <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled><strong>Name</strong></button></span>
-                  <input type="text" class="form-control" id="new_name" [(ngModel)]="generate_name">
-                </div>
-              </div>
+            <div class="form-group input-group">
+              <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled><strong>Name</strong></button></span>
+              <input type="text" class="form-control" id="new_name" [(ngModel)]="generate_name">
             </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="form-group input-group">
-                  <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled><strong>Password</strong></button></span>
-                  <input type="password" class="form-control" id="new_pwd" [(ngModel)]="generate_password">
-                </div>
-              </div>
-            </div>
-            <div class="row" align="center">
-              <div class="col-lg-12">
-                <button class="btn btn-success likeLink" (click)="generateAccount()">Generate new account</button>
-              </div>
+            <div class="form-group input-group">
+              <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled><strong>Password</strong></button></span>
+              <input type="password" class="form-control" id="new_pwd" [(ngModel)]="generate_password">
+              <span class="input-group-btn"><button class="btn btn-success generate-menu-label" type="button" (click)="generateAccount()">Generate</button></span>
             </div>
           </div>
         </div>

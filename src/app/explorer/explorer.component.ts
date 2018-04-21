@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../services/api.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GlobalvarsService} from '../services/globalvars.service';
 
-@Component({
-  selector: 'app-explorer',
-  templateUrl: './explorer.component.html',
-  styleUrls: ['./explorer.component.css']
-})
+/* ExplorerComponent: handles the transparent functionality of viewing service data and address lookup */
+@Component({selector: 'app-explorer', templateUrl: './explorer.component.html'})
+
 export class ExplorerComponent implements OnInit {
 
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private global: GlobalvarsService) { }
@@ -15,6 +13,7 @@ export class ExplorerComponent implements OnInit {
   address = "";
   address_search;
 
+  //Address parameters (set only if address is defined)
   address_payload;
   address_type;
   address_events;
@@ -24,6 +23,8 @@ export class ExplorerComponent implements OnInit {
 
   ngOnInit() {
     this.global.globalvars.current_component = "explorer";
+
+    //Fetch address from Route
     this.route.params.subscribe(params => {
       if (params['id'] != undefined) {
         this.address = params['id'];
@@ -49,6 +50,7 @@ export class ExplorerComponent implements OnInit {
     });
   }
 
+  //Redirects to ExplorerComponent with a given address as a parameter
   explore_address = function (address) {
     this.router.navigate(['explorer', address]);
   }

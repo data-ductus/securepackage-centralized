@@ -1,21 +1,30 @@
-<div class="container" xmlns="http://www.w3.org/1999/html">
+<!--AgreementComponent: handles agreement information display in detail for the seller and the buyer-->
+<div class="container">
+
+  <!--Agreement header-->
   <div class="row">
-    <div class="col-lg-12" style="margin-bottom: 7px">
+    <div class="col-lg-12" style="margin-bottom: 7px;">
       <h3><strong>Details of agreement <a (click)="explore_address(agreement_id)">0x{{agreement_id}}</a></strong></h3>
     </div>
   </div>
+
+  <!--Buyer approval buttons-->
   <div class="row" *ngIf="item_agreement_params?.buyer_id == global.globalvars.account_logged_in && item_agreement_params?.state == 'DELIVERED'">
     <div class="col-lg-12 form-group" align="center">
-      <button class="btn btn-success action_but" (click)="acceptItem()"><span class="glyphicon glyphicon-ok"></span> I am satisfied with the condition of goods</button>
-      <button class="btn btn-danger action_but" (click)="rejectItem()"><span class="glyphicon glyphicon-remove"></span> I am not satisfied with the condition of the goods</button>
+      <button class="btn btn-success action_but" (click)="acceptItem()"><span class="glyphicon glyphicon-ok"></span> I am satisfied with the condition of the item</button>
+      <button class="btn btn-danger action_but" (click)="rejectItem()"><span class="glyphicon glyphicon-remove"></span> I am not satisfied with the condition of the item</button>
     </div>
   </div>
+
+  <!--Seller approval buttons-->
   <div class="row" *ngIf="item_agreement_params?.seller_id == global.globalvars.account_logged_in && item_agreement_params?.state == 'RETURNED'">
     <div class="col-lg-12 form-group" align="center">
-      <button class="btn btn-success action_but" (click)="acceptReturn()"><span class="glyphicon glyphicon-ok"></span> I am satisfied with the condition of return</button>
+      <button class="btn btn-success action_but" (click)="acceptReturn()"><span class="glyphicon glyphicon-ok"></span> I am satisfied with the condition of the return</button>
       <button class="btn btn-danger action_but" (click)="rejectReturn()"><span class="glyphicon glyphicon-remove"></span> I am not satisfied with the condition of the return</button>
     </div>
   </div>
+
+  <!--Violation warning-->
   <div *ngIf="item_agreement_params?.violation == true" class="row">
     <div class="col-lg-12">
       <div class="alert alert-danger">
@@ -23,7 +32,9 @@
       </div>
     </div>
   </div>
+
   <div class="row">
+    <!--Item parameters-->
     <div class="col-lg-6">
       <div class="alert alert-info">
         <p><strong><span class="glyphicon glyphicon-file"></span> Item:</strong> {{item_item_params?.title}}</p>
@@ -33,6 +44,8 @@
         <p><strong><span class="glyphicon glyphicon-user"></span> Current state:</strong> {{item_agreement_params?.state}}</p>
       </div>
     </div>
+
+    <!--Sensor parameters-->
     <div class="col-lg-6">
       <div class="alert alert-info">
         <p *ngIf="item_terms?.accelerometer !== null"><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer:</strong>
@@ -63,7 +76,9 @@
     </div>
   </div>
 
+  <!--Logistics information-->
   <div *ngIf="item_agreement_params?.state != 'LOCKED' && item_agreement_params?.state != 'CLERK'">
+    <!--Logistics identifier header-->
     <div class="row">
       <div class="col-lg-12">
         <div class="alert alert-info">
@@ -74,6 +89,7 @@
       </div>
     </div>
 
+    <!--Sensor display buttons-->
     <div class="row">
       <div class="col-lg-12 form-group">
         <button *ngIf="show_sensors == false" class="btn btn-success form-control" (click)="initCharts(); show_sensors = true"><span class="glyphicon glyphicon-dashboard"></span> Show sensor data</button>
@@ -81,6 +97,7 @@
       </div>
     </div>
 
+    <!--Sensor charts-->
     <div [hidden]="show_sensors == false">
       <div class="row">
         <div class="col-md-6">
@@ -90,6 +107,7 @@
           <div *ngIf="temperature_sensor_id !== null" id="tempChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
           <div *ngIf="temperature_sensor_id === null">No sensor included</div>
         </div>
+
         <div class="col-md-6">
           <div class="alert" [ngClass]="{'alert-success': accelerometer_sensor_id !== null, 'alert-danger': accelerometer_sensor_id === null}">
             <p><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer</strong> {{accelerometer_sensor_id}}</p>
@@ -98,6 +116,7 @@
           <div *ngIf="accelerometer_sensor_id === null">No sensor included</div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-md-6">
           <div class="alert" [ngClass]="{'alert-success': pressure_sensor_id !== null, 'alert-danger': pressure_sensor_id === null}">
@@ -106,6 +125,7 @@
           <div *ngIf="pressure_sensor_id !== null" id="pressChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
           <div *ngIf="pressure_sensor_id === null">No sensor included</div>
         </div>
+
         <div class="col-md-6">
           <div class="alert" [ngClass]="{'alert-success': humidity_sensor_id !== null, 'alert-danger': humidity_sensor_id === null}">
             <p><strong><span class="glyphicon glyphicon-dashboard"></span> Humidity</strong> {{humidity_sensor_id}}</p>
@@ -116,6 +136,7 @@
       </div>
     </div>
 
+    <!--GPS display buttons-->
     <div class="row">
       <div class="col-lg-12 form-group">
         <button *ngIf="show_gps == false" class="btn btn-success form-control" (click)="show_gps = true"><span class="glyphicon glyphicon-globe"></span> Show GPS location</button>
@@ -123,17 +144,21 @@
       </div>
     </div>
 
+    <!--Map display-->
     <div *ngIf="show_gps == true">
       <div class="row">
         <div class="col-lg-12">
-          <agm-map [latitude]="current_location.lat" [longitude]="current_location.lng" [zoom]="10">
-            <agm-marker [latitude]="current_location.lat" [longitude]="current_location.lng"></agm-marker>
-          </agm-map>
+          <div class="alert">
+            <agm-map [latitude]="current_location.lat" [longitude]="current_location.lng" [zoom]="10">
+              <agm-marker [latitude]="current_location.lat" [longitude]="current_location.lng"></agm-marker>
+            </agm-map>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!--Event table-->
   <div class="row">
     <div class="col-lg-12">
       <div class="tb">

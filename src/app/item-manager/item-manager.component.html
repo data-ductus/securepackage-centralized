@@ -3,9 +3,6 @@
     <div class="col-lg-6 col-lg-offset-3">
 
       <div class="row" *ngIf="manager_type == 'forsale'">
-        <div *ngIf="itemdisplay == null">
-          <div class="alert alert-info">XDXDXDXD</div>
-        </div>
         <div *ngFor="let item of itemdisplay">
           <div class="alert alert-info">
             <div class="row">
@@ -45,20 +42,18 @@
 
       <div class="row" *ngIf="manager_type == 'proposed'">
         <div class="col-lg-12">
-          <div class="alert alert-info">
-            <div class="form-group">
-              <label>Show proposals</label>
-              <select class="form-control" [(ngModel)]="proposal_state_chosen">
-                <option selected="selected">PROPOSED</option>
-                <option>DENIED</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label>Show proposals</label>
+            <select class="form-control" [(ngModel)]="proposal_state_chosen">
+              <option selected="selected">PROPOSED</option>
+              <option>DENIED</option>
+            </select>
           </div>
           <div *ngFor="let terms of proposaldisplay">
             <div *ngIf="terms.status == proposal_state_chosen">
               <div class="alert" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': terms.status == 'DENIED'}">
                 <div class="form-group">
-                  <h3><span class="glyphicon glyphicon-tags"></span> <strong> {{terms.title}}</strong></h3><hr>
+                  <h4><span class="glyphicon glyphicon-tags"></span> <strong> {{terms.title}}</strong></h4><hr>
                   <p><span class="glyphicon glyphicon-file"></span> <strong>Proposal number: </strong> {{terms.terms_id}}</p>
                   <p><span class="glyphicon glyphicon-cog"></span> <strong>Proposal status: </strong> {{terms.status}}</p>
                   <p><span class="glyphicon glyphicon-user"></span> <strong>Sold by: </strong> {{terms.seller_id}}</p>
@@ -92,7 +87,7 @@
 
       <div class="row" *ngIf="manager_type == 'bought'">
         <div class="col-lg-12">
-          <div *ngFor="let item of purchasedisplay" class="alert alert-info">
+          <div *ngFor="let item of purchasedisplay" class="alert alert-info" style="cursor: pointer">
             <div class="row" (click)="moveToAgreement(item.agreement_id)">
               <div class="col-lg-4">
                 <img src={{item.image}} alt="800x600" border="0" class="item_image">

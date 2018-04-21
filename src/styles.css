@@ -29,3 +29,13 @@ table {
 a {
   cursor: pointer;
 }
+
+agm-map {
+  height: 300px;
+}
+
+/*Action buttons in AgreementComponent*/
+.action_but {
+  width:49.5%;
+}
+

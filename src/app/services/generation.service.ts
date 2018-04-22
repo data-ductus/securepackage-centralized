@@ -41,4 +41,31 @@ export class GenerationService {
     let dateTime = "'"+year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second+"'";
     return dateTime;
   };
+
+  byteArrayToHexString = function(byteArray) {
+    let s = '';
+    byteArray.forEach(function(byte) {
+      s += ('0' + (byte & 0xFF).toString(16)).slice(-2);
+    });
+    return s;
+  };
+
+  stringToByteArray = function(str) {
+    let arraybuf = new ArrayBuffer(str.length*2);
+    let bufView = new Uint8Array(arraybuf);
+    for (let i = 0, strLen = str.length; i < strLen; i++) {
+      bufView[i] = str.charCodeAt(i);
+    }
+    return bufView;
+  };
+
+  getAddress = function (string){
+    let address = '';
+    for (let i = 0; i < string.length; i++) {
+      if (i >= 24) {
+        address += string[i];
+      }
+    }
+    return address;
+  }
 }

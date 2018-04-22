@@ -1,5 +1,8 @@
+<!--Navigation bar-->
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
+
+    <!--Left sidebar-->
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Secure Package</a>
     </div>
@@ -12,6 +15,8 @@
     <ul class="nav navbar-nav">
       <li [ngClass]="{'active': global.globalvars.current_component == 'explorer'}"><a routerLink="explorer">Explorer</a></li>
     </ul>
+
+    <!--Right sidebar-->
     <ul class="nav navbar-nav navbar-right" [hidden]="global.globalvars.account_logged_in == null">
       <li [ngClass]="{'active': global.globalvars.current_component == 'newitem'}">
         <a (click)="newitem()" class="btn"><span class="glyphicon glyphicon-plus"></span> New item</a></li>
@@ -29,42 +34,56 @@
   </div>
 </nav>
 
+<!--App contents, router-outlet points here-->
 <div class="app_contents">
   <router-outlet></router-outlet>
 </div>
 
-<!-- Modal -->
+<!--Account information modal-->
 <div id="accountModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
+
+      <!--Header-->
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title"><span class="glyphicon glyphicon-user"></span> Account details</h4>
       </div>
+
+      <!--Body-->
       <div class="modal-body">
+        <!--Account address-->
         <div class="form-group">
           <label>Account address</label>
           <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_logged_in" disabled>
         </div>
+
+        <!--User's full name-->
         <div class="form-group">
           <label>Full name</label>
           <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_full_name" disabled>
         </div>
+
+        <!--User's street address-->
         <div class="form-group">
           <label>Street address</label>
           <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_street_address">
         </div>
+
+        <!--User's city-->
         <div class="form-group">
           <label>City</label>
           <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_city">
         </div>
+
+        <!--User city's postal/zip code-->
         <div class="form-group">
           <label>Postal code</label>
           <input type="text" class="form-control" [(ngModel)]="global.globalvars.account_postal_code">
         </div>
       </div>
+
+      <!--Footer with action buttons-->
       <div class="modal-footer">
         <button type="button" (click)="updateUserInfo()" class="btn btn-success" data-dismiss="modal">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

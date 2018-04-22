@@ -1,8 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
+/* GlobalvarsService: stores global variables in a JSON object */
 @Injectable()
+
 export class GlobalvarsService {
 
+  //Global variable object
   globalvars = {
     account_logged_in: null,
     account_full_name: null,
@@ -13,5 +16,4 @@ export class GlobalvarsService {
   };
 
   constructor() { }
-
 }

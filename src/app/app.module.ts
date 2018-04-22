@@ -5,24 +5,25 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+import { AmChartsModule } from '@amcharts/amcharts3-angular';
+import { AgmCoreModule } from '@agm/core';
+
 import { ApiService } from './services/api.service';
 import { GlobalvarsService } from './services/globalvars.service';
 import { GenerationService } from './services/generation.service';
 
 import { AppComponent } from './app.component';
+
 import { LoginComponent } from './login/login.component';
 import { ItemBrowserComponent } from './item-browser/item-browser.component';
 import { ItemManagerComponent } from './item-manager/item-manager.component';
 import { NewItemComponent } from './new-item/new-item.component';
 import { ItemComponent } from './item/item.component';
 import { AgreementComponent } from './agreement/agreement.component';
-import { AmChartsModule } from '@amcharts/amcharts3-angular';
-
-import { AgmCoreModule } from '@agm/core';
 import { ExplorerComponent } from './explorer/explorer.component';
 import { ClerkComponent } from './clerk/clerk.component';
 
-
+//Router path template
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'items', component: ItemBrowserComponent},
@@ -61,4 +62,5 @@ const appRoutes: Routes = [
   providers: [ApiService, GlobalvarsService, GenerationService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
+/* GenerationService: contains helper function for time, hash, ID and byte array generation */
 @Injectable()
 export class GenerationService {
 
   constructor() { }
 
+  //Generates a 160-bit identification number
   generate160bitId = function() {
     let id = "";
     let possible = "0123456789abcdef";
@@ -15,7 +17,9 @@ export class GenerationService {
     return id;
   };
 
+  //Generates current time in MySQL format
   generateCurrentTime = function() {
+    //Fetch current time
     let now     = new Date();
     let year    = now.getFullYear().toString();
     let month   = (now.getMonth()+1).toString();
@@ -23,6 +27,8 @@ export class GenerationService {
     let hour    = now.getHours().toString();
     let minute  = now.getMinutes().toString();
     let second  = now.getSeconds().toString();
+
+    //Format parameters in case of the containing only one character
     if(month.toString().length == 1) {
       month = '0' + month;
     }
@@ -38,10 +44,12 @@ export class GenerationService {
     if(second.toString().length == 1) {
       second = '0' + second;
     }
-    let dateTime = "'"+year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second+"'";
-    return dateTime;
+
+    //Return in MySQL format
+    return "'" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second + "'";
   };
 
+  //Converts byte array to hexadecimal string
   byteArrayToHexString = function(byteArray) {
     let s = '';
     byteArray.forEach(function(byte) {
@@ -50,6 +58,7 @@ export class GenerationService {
     return s;
   };
 
+  //Converts hexadecimal string to byte array
   stringToByteArray = function(str) {
     let arraybuf = new ArrayBuffer(str.length*2);
     let bufView = new Uint8Array(arraybuf);
@@ -59,6 +68,7 @@ export class GenerationService {
     return bufView;
   };
 
+  //Gets 160-bit address from 256-bit long public key
   getAddress = function (string){
     let address = '';
     for (let i = 0; i < string.length; i++) {

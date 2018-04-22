@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GlobalvarsService} from '../services/globalvars.service';
 import {ApiService} from '../services/api.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
-@Component({
-  selector: 'app-item-browser',
-  templateUrl: './item-browser.component.html',
-  styleUrls: ['./item-browser.component.css']
-})
+/* ItemBrowserComponent: handles item (advert) browsing */
+@Component({selector: 'app-item-browser', templateUrl: './item-browser.component.html'})
+
 export class ItemBrowserComponent implements OnInit {
-  itemdisplay = {};
+  item_display = {};
 
   constructor(private global: GlobalvarsService, private api: ApiService, private router: Router, private route: ActivatedRoute) { }
 
@@ -18,11 +16,13 @@ export class ItemBrowserComponent implements OnInit {
     this.fetchAllAgreements();
   }
 
+  //Fetches all items, that are up for sale
   fetchAllAgreements = function () {
     let request_payload = {status: 'CREATED'};
-    this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.itemdisplay = response;})
+    this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.item_display = response})
   };
 
+  //Navigates to ItemComponent to view the clicked item in detail
   agreementClick = function (agreement_id) {
     this.router.navigate(['item', agreement_id]);
   }

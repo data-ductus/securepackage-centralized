@@ -77,7 +77,7 @@
   </div>
 
   <!--Logistics information-->
-  <div *ngIf="item_agreement_params?.state != 'LOCKED' && item_agreement_params?.state != 'CLERK'">
+  <div *ngIf="item_agreement_params?.state != 'LOCKED' && item_agreement_params?.state != 'CLERK' && item_agreement_params?.state != 'REJECTED'">
     <!--Logistics identifier header-->
     <div class="row">
       <div class="col-lg-12">

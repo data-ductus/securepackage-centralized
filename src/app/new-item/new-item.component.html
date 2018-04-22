@@ -1,27 +1,41 @@
+<!--NewItemComponent: handles addition of new items/adverts-->
 <div class="container">
   <div class="row">
     <div class="col-lg-6 col-lg-offset-3">
 
+      <!--First addition step (general information)-->
       <div class="row" *ngIf="item_defined === false">
         <div class="col-lg-12">
           <div class="alert alert-info">
+
+            <!--Header-->
             <h3><span class="glyphicon glyphicon-plus"></span> New item</h3><hr>
+
+            <!--Identification number-->
             <div class="form-group">
               <p>Identification number</p>
               <input type="text" class="form-control" id="item_id" disabled [(ngModel)]="item_id">
             </div>
+
+            <!--Title-->
             <div class="form-group">
               <p>Title</p>
               <input type="text" class="form-control" id="item_title" [(ngModel)]="item_title">
             </div>
+
+            <!--Description-->
             <div class="form-group">
               <p>Description</p>
               <textarea class="form-control" id="item_description" [(ngModel)]="item_description"></textarea>
             </div>
+
+            <!--Image-->
             <div class="form-group">
               <p>Image URL</p>
               <input type="text" class="form-control" id="item_image" [(ngModel)]="item_image">
             </div>
+
+            <!--Move to next step-->
             <div class="row">
               <div class="col-lg-12">
                 <div class="form-group">
@@ -29,19 +43,26 @@
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
 
+      <!--Second addition step (initial terms definition)-->
       <div class="row" *ngIf="item_defined === true">
         <div class="col-lg-12">
           <div class="alert alert-info">
-            <h3><span class="glyphicon glyphicon-cog"></span> Propose terms</h3>
-            <hr>
+
+            <!--Header-->
+            <h3><span class="glyphicon glyphicon-cog"></span> Propose terms</h3><hr>
+
+            <!--Terms ID-->
             <div class="form-group">
               <p>Terms identification number</p>
               <input type="text" class="form-control" id="terms_id" disabled [(ngModel)]="terms_id">
             </div>
+
+            <!--Price with currency selection-->
             <div class="form-group">
               <p>Price</p>
               <div class="form-group input-group">
@@ -55,6 +76,8 @@
                 </span>
               </div>
             </div>
+
+            <!--Shipment deadline-->
             <div class="form-group">
               <p>Shipment deadline (hours)</p>
               <div class="form-group input-group">
@@ -63,8 +86,10 @@
               </div>
             </div>
 
+            <!--Sensore selection-->
             <hr>
 
+            <!--Accelerometer-->
             <div class="form-group">
               <button class="btn btn-primary sensor-select" (click)="terms_accelerometer=true" *ngIf="!terms_accelerometer">Include accelerometer</button>
               <div class="row" *ngIf="terms_accelerometer">
@@ -79,6 +104,8 @@
                 </div>
               </div>
             </div>
+
+            <!--Pressure sensor-->
             <div class="form-group">
               <button class="btn btn-primary sensor-select" (click)="terms_pressure=true" *ngIf="!terms_pressure">Include pressure sensor</button>
               <div class="row" *ngIf="terms_pressure">
@@ -94,8 +121,9 @@
                   </div>
                 </div>
               </div>
-
             </div>
+
+            <!--Humidity sensor-->
             <div class="form-group">
               <button class="btn btn-primary sensor-select" (click)="terms_humidity=true" *ngIf="!terms_humidity">Include humidity sensor</button>
               <div class="row" *ngIf="terms_humidity">
@@ -112,8 +140,9 @@
                   </div>
                 </div>
               </div>
-
             </div>
+
+            <!--Temperature sensor-->
             <div class="form-group">
               <button class="btn btn-primary sensor-select" (click)="terms_temperature=true" *ngIf="!terms_temperature">Include temp sensor</button>
               <div class="row" *ngIf="terms_temperature">
@@ -129,18 +158,22 @@
                   </div>
                 </div>
               </div>
-
             </div>
+
+            <!--GPS sensor-->
             <div class="form-group">
               <button class="btn btn-primary sensor-select" (click)="terms_gps = true" *ngIf="!terms_gps">Include GPS sensor</button>
               <button class="btn btn-danger sensor-select" (click)="terms_gps = false" *ngIf="terms_gps">Exclude GPS sensor</button>
             </div>
 
+            <!--Step buttons-->
             <button class="btn btn-danger" (click)="item_defined = false"><span class="glyphicon glyphicon-arrow-left"></span> Previous</button>
             <button class="btn btn-success pull-right" (click)="addNewItem()"><span class="glyphicon glyphicon-plus"></span> Add new item</button>
+
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>

@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { GenerationService } from '../services/generation.service';
-import { ApiService } from '../services/api.service';
-import { GlobalvarsService } from '../services/globalvars.service';
+import {Component, OnInit} from '@angular/core';
+import {GenerationService} from '../services/generation.service';
+import {ApiService} from '../services/api.service';
+import {GlobalvarsService} from '../services/globalvars.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
-@Component({
-  selector: 'app-new-item',
-  templateUrl: './new-item.component.html',
-  styleUrls: ['./new-item.component.css']
-})
+/* NewItemComponent: handles addition of new items/adverts */
+@Component({selector: 'app-new-item', templateUrl: './new-item.component.html'})
+
 export class NewItemComponent implements OnInit {
 
+  //First step parameters
   item_id = "";
   item_title = "";
   item_description = "";
@@ -18,16 +17,19 @@ export class NewItemComponent implements OnInit {
 
   item_defined = false;
 
+  //Second step parameters (initial terms)
   terms_id = "";
   terms_price = 0;
   terms_shipmentdeadline = 48;
 
+  //Second step parameters (sensor selection)
   terms_accelerometer = false;
   terms_pressure = false;
   terms_humidity = false;
   terms_temperature = false;
   terms_gps = false;
 
+  //Second step parameters (sensor thresholds)
   sensor_pressure_low = null; sensor_pressure_high = null;
   sensor_humidity_low = null; sensor_humidity_high = null;
   sensor_temperature_low = null; sensor_temperature_high = null;
@@ -42,6 +44,7 @@ export class NewItemComponent implements OnInit {
     this.global.globalvars.current_component = "newitem";
   }
 
+  //Adds new item, sends parameters to database via API
   addNewItem = function() {
     let request_payload = {
       id: this.item_id,
@@ -63,9 +66,8 @@ export class NewItemComponent implements OnInit {
       sensor_accelerometer: this.sensor_accelerometer,
       sensor_gps: this.terms_gps
     };
-    this.api.serverRequest(request_payload, "NEW_ITEM").then(data => {
-      this.router.navigate(['items'])
-    });
+
+    this.api.serverRequest(request_payload, "NEW_ITEM").then(data => {this.router.navigate(['items'])});
   };
 }
 

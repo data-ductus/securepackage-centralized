@@ -1,8 +1,11 @@
+<!--ItemManagerComponent: handles item management by the user, as well as proposals-->
 <div class="container">
   <div class="row">
     <div class="col-lg-6 col-lg-offset-3">
 
+      <!--User's items browser-->
       <div class="row" *ngIf="manager_type == 'forsale'">
+        <!--Item display-->
         <div *ngFor="let item of itemdisplay">
           <div class="alert alert-info">
             <div class="row">
@@ -24,8 +27,9 @@
                 </div>
               </div>
             </div>
-            <hr>
-            <div class="row" align="center">
+
+            <!--Action buttons-->
+            <div class="row" align="center" style="margin-top: 15px">
               <div class="col-lg-4">
                 <button class="btn btn-primary manage_button" [disabled]="item.state != 'CREATED'" (click)="fetchItemTerms(item.agreement_id)" data-toggle="modal" data-target="#termsModal"><span class="glyphicon glyphicon-list-alt"></span> Manage proposals</button>
               </div>
@@ -40,8 +44,41 @@
         </div>
       </div>
 
+      <!--User's accepted items (purchases)-->
+      <div class="row" *ngIf="manager_type == 'bought'">
+        <div class="col-lg-12">
+
+          <!--Item display-->
+          <div *ngFor="let item of purchasedisplay" class="alert alert-info" style="cursor: pointer">
+            <div class="row" (click)="moveToAgreement(item.agreement_id)">
+              <div class="col-lg-4">
+                <img src={{item.image}} alt="800x600" border="0" class="item_image">
+              </div>
+              <div class="col-lg-8" >
+                <div class="row">
+                  <p><strong>{{item.title}}</strong></p>
+                </div>
+                <div class="row">
+                  <p><span class="glyphicon glyphicon-link"></span> {{item.agreement_id}}</p>
+                </div>
+                <div class="row">
+                  <p><span class="glyphicon glyphicon-credit-card"></span> {{item.price}} SEK</p>
+                </div>
+                <div class="row">
+                  <p><span class="glyphicon glyphicon-cog"></span> {{item.state}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!--User's proposal browser-->
       <div class="row" *ngIf="manager_type == 'proposed'">
         <div class="col-lg-12">
+
+          <!--Proposal status selector-->
           <div class="form-group">
             <label>Show proposals</label>
             <select class="form-control" [(ngModel)]="proposal_state_chosen">
@@ -49,6 +86,8 @@
               <option>DENIED</option>
             </select>
           </div>
+
+          <!--Proposal display-->
           <div *ngFor="let terms of proposaldisplay">
             <div *ngIf="terms.status == proposal_state_chosen">
               <div class="alert" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': terms.status == 'DENIED'}">
@@ -82,49 +121,28 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
-
-      <div class="row" *ngIf="manager_type == 'bought'">
-        <div class="col-lg-12">
-          <div *ngFor="let item of purchasedisplay" class="alert alert-info" style="cursor: pointer">
-            <div class="row" (click)="moveToAgreement(item.agreement_id)">
-              <div class="col-lg-4">
-                <img src={{item.image}} alt="800x600" border="0" class="item_image">
-              </div>
-              <div class="col-lg-8" >
-                <div class="row">
-                  <p><strong>{{item.title}}</strong></p>
-                </div>
-                <div class="row">
-                  <p><span class="glyphicon glyphicon-link"></span> {{item.agreement_id}}</p>
-                </div>
-                <div class="row">
-                  <p><span class="glyphicon glyphicon-credit-card"></span> {{item.price}} SEK</p>
-                </div>
-                <div class="row">
-                  <p><span class="glyphicon glyphicon-cog"></span> {{item.state}}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
 
-<!-- Modal -->
+<!--Manage proposals modal-->
 <div id="termsModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content">
+
+      <!--Header-->
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Current proposals</h4>
       </div>
+
+      <!--Body-->
       <div class="modal-body">
+
+        <!--Proposal status selector-->
         <div class="form-group">
           <label for="proposal_states">Show proposals</label>
           <select class="form-control" id="proposal_states" [(ngModel)]="proposal_state_chosen">
@@ -132,6 +150,8 @@
             <option>DENIED</option>
           </select>
         </div>
+
+        <!--Proposal display-->
         <div *ngFor="let terms of item_terms">
           <div class="alert" [hidden]="terms.status != proposal_state_chosen" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': terms.status == 'DENIED'}">
             <h4><span class="glyphicon glyphicon-file"></span> <strong>Proposal #{{terms.terms_id}}</strong></h4>
@@ -160,14 +180,16 @@
               <button class="btn btn-success" (click)="acceptProposal(terms.terms_id, terms.agreement_id, terms.author_account)"><span class="glyphicon glyphicon-ok"></span> Accept</button>
               <button class="btn btn-danger" (click)="rejectProposal(terms.terms_id)"><span class="glyphicon glyphicon-remove"></span> Reject</button>
             </div>
-
           </div>
         </div>
       </div>
+
+      <!--Footer-->
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
+
   </div>
 </div>
 

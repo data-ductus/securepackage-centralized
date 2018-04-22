@@ -72,3 +72,8 @@ agm-map {
   max-width: 158px;
   max-height: 118px;
 }
+
+/*============================ItemManagerComponent============================*/
+.manage_button {
+  width: 100%;
+}

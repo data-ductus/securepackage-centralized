@@ -16,7 +16,6 @@ export class ItemComponent implements OnInit {
   item_item_params;
   item_images;
 
-
   //Proposed terms parameters
   terms_identification;
 

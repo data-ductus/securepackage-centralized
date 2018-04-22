@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global stylesheet */
 .app_contents {
   position: absolute;
   top: 70px;
@@ -39,3 +39,27 @@ agm-map {
   width:49.5%;
 }
 
+/*============================ItemComponent=======================*/
+.disabled {
+  background-color: grey;
+}
+
+.item_container {
+  background-color: lightblue;
+  margin-bottom: 10px;
+  padding: 20px;
+  border: 1px solid black;
+}
+
+.item_image {
+  width: 100%;
+}
+
+#item_desc {
+  margin-top: 20px;
+  word-wrap: break-word;
+}
+
+#creation_details {
+  margin-bottom: 40px;
+}

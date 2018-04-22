@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {ApiService} from '../services/api.service';
 import {GenerationService} from '../services/generation.service';
 import {GlobalvarsService} from '../services/globalvars.service';
 
-@Component({
-  selector: 'app-item',
-  templateUrl: './item.component.html',
-  styleUrls: ['./item.component.css']
-})
+/* ItemComponent: handles item display and proposal creation */
+@Component({selector: 'app-item', templateUrl: './item.component.html'})
+
 export class ItemComponent implements OnInit {
   agreement_id;
 
+  //Item parameters
   item_agreement_params;
   item_terms;
   item_item_params;
   item_images;
 
+
+  //Proposed terms parameters
   terms_identification;
 
   terms_accelerometer = false;
@@ -33,17 +34,20 @@ export class ItemComponent implements OnInit {
   sensor_temperature_low = null; sensor_temperature_high = null;
   sensor_accelerometer = null;
 
+  //Default status of proposal display
   proposal_state_chosen = "PROPOSED";
 
   constructor(private route: ActivatedRoute, private api: ApiService, private generator: GenerationService, private global: GlobalvarsService) { }
 
   ngOnInit() {
+    this.global.globalvars.current_component = "items";
     this.route.params.subscribe(params => {
       this.agreement_id = params['id'];
       this.fetchAgreementDetails();
     });
   }
 
+  //Fetches agreement details and sets according variables
   fetchAgreementDetails = function () {
     let request_payload = {id: this.agreement_id};
     this.api.serverRequest(request_payload, "FETCH_AGREEMENT_INFO").then(response => this.item_agreement_params = response);
@@ -55,9 +59,11 @@ export class ItemComponent implements OnInit {
     });
   };
 
+  //Assignes default terms that can be changed by the potential buyer
   assignDefaultTerms = function(data) {
     this.terms_identification = this.generator.generate160bitId();
 
+    //Set default sensor parameters
     for (let terms of data) {
       if (terms.status === 'INITIAL') {
         this.terms_item_price = terms.price;
@@ -88,6 +94,7 @@ export class ItemComponent implements OnInit {
     }
   };
 
+  //Sends proposed terms to the API
   proposeTerms = function () {
     let request_payload = {
       terms_id: this.terms_identification,

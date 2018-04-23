@@ -32,6 +32,8 @@ export class AgreementComponent implements OnInit {
   pressData = [];
   humidityData = [];
 
+  time_step = 120;
+
   //Either return or delivery
   direction;
 
@@ -136,7 +138,7 @@ export class AgreementComponent implements OnInit {
                   let step = {'acc': output.output, 'time': time};
                   console.log(step);
                   this.amCharts.updateChart(this.accChart, () => {this.accChart.dataProvider.push(step);});
-                  time += 120;
+                  time += this.time_step;
                 }
               });
             } else if (sensor.sensor_type === 'PRES') {
@@ -147,7 +149,7 @@ export class AgreementComponent implements OnInit {
                   let step = {'press': output.output, 'time': time};
                   console.log(step);
                   this.amCharts.updateChart(this.pressChart, () => {this.pressChart.dataProvider.push(step);});
-                  time += 120;
+                  time += this.time_step;
                 }
               });
             } else if (sensor.sensor_type === 'TEMP') {
@@ -158,7 +160,7 @@ export class AgreementComponent implements OnInit {
                   let step = {'temp': output.output, 'time': time};
                   console.log(step);
                   this.amCharts.updateChart(this.tempChart, () => {this.tempChart.dataProvider.push(step);});
-                  time += 120;
+                  time += this.time_step;
                 }
               });
             } else if (sensor.sensor_type === 'HUMID') {
@@ -169,7 +171,7 @@ export class AgreementComponent implements OnInit {
                   let step = {'humidity': output.output, 'time': time};
                   console.log(step);
                   this.amCharts.updateChart(this.humidityChart, () => {this.humidityChart.dataProvider.push(step);});
-                  time += 120;
+                  time += this.time_step;
                 }
               });
             } else if (sensor.sensor_type === 'GPS') {

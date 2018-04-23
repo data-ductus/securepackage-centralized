@@ -4,7 +4,7 @@
     <div class="col-lg-8 col-lg-offset-2">
 
       <!--Clerk login menu-->
-      <div class="row" *ngIf="!clerk_authorized">
+      <div class="row" *ngIf="!clerk_authorized && address == null">
         <div class="col-lg-12">
           <div class="alert alert-info">
             <h4><strong>Clerk administrator login</strong></h4>
@@ -22,29 +22,303 @@
       </div>
 
       <!--Unresolved conflict table-->
-      <div class="row" *ngIf="clerk_authorized">
-        <h4><strong><span class="glyphicon glyphicon-list-alt"></span> Unresolved conflicts</strong></h4>
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th scope="col">Agreement ID</th>
-            <th scope="col">Terms ID</th>
-            <th scope="col">Conflict initiated</th>
-            <th scope="col">Violation</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let conflict of clerk_agreements">
-            <td scope="row"><a (click)="manageConflict(conflict.agreement_id)">{{conflict.agreement_id}}</a></td>
-            <td scope="row"><a (click)="explore_address(conflict.terms_id)">{{conflict.terms_id}}</a></td>
-            <td scope="row">{{conflict.timestamp}}</td>
-            <td scope="row" align="center" *ngIf="conflict.violation == '1'"><span class="label label-danger">YES</span></td>
-            <td scope="row" align="center" *ngIf="conflict.violation == '0'"><span class="label label-success">NO</span></td>
-          </tr>
-          </tbody>
-        </table>
+      <div class="row" *ngIf="clerk_authorized && address == null">
+        <div class="col-lg-12">
+          <h4><strong><span class="glyphicon glyphicon-list-alt"></span> Unresolved conflicts</strong></h4>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Agreement ID</th>
+              <th scope="col">Terms ID</th>
+              <th scope="col">Conflict initiated</th>
+              <th scope="col">Violation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let conflict of clerk_agreements">
+              <td scope="row"><a (click)="manageConflict(conflict.agreement_id)">{{conflict.agreement_id}}</a></td>
+              <td scope="row"><a (click)="exploreAddress(conflict.terms_id)">{{conflict.terms_id}}</a></td>
+              <td scope="row">{{conflict.timestamp}}</td>
+              <td scope="row" align="center" *ngIf="conflict.violation == '1'"><span class="label label-danger">YES</span></td>
+              <td scope="row" align="center" *ngIf="conflict.violation == '0'"><span class="label label-success">NO</span></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
+      <!--Agreement resolvement display-->
+      <div *ngIf="address != null">
+        <div class="row">
+          <div class="col-lg-12">
+            <h3><strong><span class="glyphicon glyphicon-education"></span> Clerk dashboard (<a (click)="exploreAddress(address)">0x{{address}}</a>)</strong></h3>
+          </div>
+        </div>
+
+        <!--Buyer and seller informaton-->
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="alert alert-info">
+              <h4><strong>Seller account</strong></h4>
+              <p><strong><span class="glyphicon glyphicon-link"></span> </strong>{{agreement_seller_details?.account_id}}</p>
+              <p><strong><span class="glyphicon glyphicon-user"></span> </strong>{{agreement_seller_details?.full_name}}</p>
+              <p><strong><span class="glyphicon glyphicon-globe"></span> </strong>{{agreement_seller_details?.street_address}},
+                {{agreement_seller_details?.postcode}} {{agreement_seller_details?.city}}</p>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="alert alert-info">
+              <h4><strong>Buyer account</strong></h4>
+              <p><strong><span class="glyphicon glyphicon-link"></span> </strong>{{agreement_buyer_details?.account_id}}</p>
+              <p><strong><span class="glyphicon glyphicon-user"></span> </strong>{{agreement_buyer_details?.full_name}}</p>
+              <p><strong><span class="glyphicon glyphicon-globe"></span> </strong>{{agreement_buyer_details?.street_address}},
+                {{agreement_buyer_details?.postcode}} {{agreement_buyer_details?.city}}</p>
+            </div>
+          </div>
+        </div>
+
+        <!--General information and terms-->
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="alert alert-info">
+              <h4><strong>General information</strong></h4>
+              <p><strong><span class="glyphicon glyphicon-file"></span> Item:</strong> {{agreement_details?.item.title}}</p>
+              <p><strong><span class="glyphicon glyphicon-credit-card"></span> Price:</strong> {{agreement_terms?.price}} SEK</p>
+              <p><strong><span class="glyphicon glyphicon-user"></span> Current state:</strong> {{agreement_details?.state}}</p>
+              <p><strong><span class="glyphicon glyphicon-list-alt"></span> Number of proposals:</strong> {{agreement_details?.terms.length - 1}} proposals</p>
+              <p><strong><span class="glyphicon glyphicon-list-alt"></span> Number of events:</strong> {{agreement_events?.length}} events</p>
+            </div>
+          </div>
+          <!--Sensor information-->
+          <div class="col-lg-6">
+            <div class="alert alert-info">
+              <h4><strong>Sensor information</strong></h4>
+              <p *ngIf="agreement_terms?.accelerometer !== null"><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer:</strong>
+                <span class="glyphicon glyphicon-arrow-up"></span> {{agreement_terms?.accelerometer}} G</p>
+              <p *ngIf="agreement_terms?.accelerometer === null"><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer:</strong>
+                <span class="glyphicon glyphicon-remove"></span></p>
+
+              <p *ngIf="agreement_terms?.temperature_low !== null"><strong><span class="glyphicon glyphicon-dashboard"></span> Temperature sensor:</strong>
+                <span class="glyphicon glyphicon-arrow-down"></span> {{agreement_terms?.temperature_low}} &#8451; <span class="glyphicon glyphicon-arrow-up"></span> {{agreement_terms?.temperature_high}} &#8451;</p>
+              <p *ngIf="agreement_terms?.temperature_low === null"><strong><span class="glyphicon glyphicon-dashboard"></span> Temperature sensor:</strong>
+                <span class="glyphicon glyphicon-remove"></span></p>
+
+              <p *ngIf="agreement_terms?.pressure_low !== null"><strong><span class="glyphicon glyphicon-dashboard"></span> Pressure sensor:</strong>
+                <span class="glyphicon glyphicon-arrow-down"></span> {{agreement_terms?.pressure_low}} PSI <span class="glyphicon glyphicon-arrow-up"></span> {{agreement_terms?.pressure_high}} PSI</p>
+              <p *ngIf="agreement_terms?.pressure_low === null"><strong><span class="glyphicon glyphicon-dashboard"></span> Pressure sensor:</strong>
+                <span class="glyphicon glyphicon-remove"></span></p>
+
+              <p *ngIf="agreement_terms?.humidity_low !== null"><strong><span class="glyphicon glyphicon-dashboard"></span> Humidity sensor:</strong>
+                <span class="glyphicon glyphicon-arrow-down"></span> {{agreement_terms?.humidity_low}} % <span class="glyphicon glyphicon-arrow-up"></span> {{agreement_terms?.humidity_high}} %</p>
+              <p *ngIf="agreement_terms?.humidity_low === null"><strong><span class="glyphicon glyphicon-dashboard"></span> Humidity sensor:</strong>
+                <span class="glyphicon glyphicon-remove"></span></p>
+
+              <p *ngIf="agreement_terms?.gps == 1"><strong><span class="glyphicon glyphicon-dashboard"></span> GPS transponder: </strong>
+                <span class="glyphicon glyphicon-ok"></span></p>
+              <p *ngIf="agreement_terms?.gps == 0"><strong><span class="glyphicon glyphicon-globe"></span> GPS transponder: </strong>
+                <span class="glyphicon glyphicon-remove"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <!--Delivery display buttons-->
+        <div class="row">
+          <div class="col-lg-12 form-group">
+            <button *ngIf="show_delivery == false" class="btn btn-success form-control" (click)="initDeliveryCharts(); show_delivery = true"><span class="glyphicon glyphicon-dashboard"></span> Show delivery process data</button>
+            <button *ngIf="show_delivery == true" class="btn btn-danger form-control" (click)="show_delivery = false"><span class="glyphicon glyphicon-dashboard"></span> Hide delivery process data</button>
+          </div>
+        </div>
+
+        <!--Delivery information display-->
+        <div [hidden]="show_delivery == false">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="alert">
+
+                <!--Delivery header-->
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="alert alert-info">
+                      <p><strong>Delivery Data</strong> ({{logistics_delivery_parameters?.kolli_id}})</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!--Sensor display-->
+                <div class="row">
+                  <!--Temperature-->
+                  <div class="col-md-6">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': delivery_temperature_sensor_id !== null, 'alert-danger': delivery_temperature_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> Temperature</strong> <strong *ngIf="delivery_temperature_sensor_id === null">(not included)</strong> {{delivery_temperature_sensor_id}}</p>
+                    </div>
+                    <div class="alert sensor-chart" *ngIf="delivery_temperature_sensor_id !== null">
+                      <div id="deliveryTempChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
+                    </div>
+                  </div>
+
+                  <!--Accelerometer-->
+                  <div class="col-md-6">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': delivery_accelerometer_sensor_id !== null, 'alert-danger': delivery_accelerometer_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer</strong> <strong *ngIf="delivery_accelerometer_sensor_id === null">(not included)</strong> {{delivery_accelerometer_sensor_id}}</p>
+                    </div>
+                    <div class="alert sensor-chart" *ngIf="delivery_accelerometer_sensor_id !== null">
+                      <div id="deliveryAccChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <!--Pressure sensor-->
+                  <div class="col-md-6">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': delivery_pressure_sensor_id !== null, 'alert-danger': delivery_pressure_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> Pressure</strong> <strong *ngIf="delivery_pressure_sensor_id === null">(not included)</strong> {{delivery_pressure_sensor_id}}</p>
+                    </div>
+                    <div class="alert sensor-chart" *ngIf="delivery_pressure_sensor_id !== null">
+                      <div id="deliveryPressChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
+                    </div>
+                  </div>
+
+                  <!--Humidity sensor-->
+                  <div class="col-md-6">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': delivery_humidity_sensor_id !== null, 'alert-danger': delivery_humidity_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> Humidity</strong> <strong *ngIf="delivery_humidity_sensor_id === null">(not included)</strong> {{delivery_humidity_sensor_id}}</p>
+                    </div>
+                    <div class="alert sensor-chart" *ngIf="delivery_humidity_sensor_id !== null">
+                      <div id="deliveryHumidityChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
+                    </div>
+                  </div>
+
+                  <!--GPS sensor-->
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="alert sensor-header" [ngClass]="{'alert-success': delivery_gps_sensor_id !== null, 'alert-danger': delivery_gps_sensor_id === null}">
+                        <p><strong><span class="glyphicon glyphicon-dashboard"></span> GPS sensor</strong> <strong *ngIf="delivery_gps_sensor_id === null">(not included)</strong> {{delivery_gps_sensor_id}}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Return display buttons-->
+        <div class="row">
+          <div class="col-lg-12 form-group">
+            <button *ngIf="show_return == false" class="btn btn-success form-control" (click)="initReturnCharts(); show_return = true"><span class="glyphicon glyphicon-dashboard"></span> Show return process data</button>
+            <button *ngIf="show_return == true" class="btn btn-danger form-control" (click)="show_return = false"><span class="glyphicon glyphicon-dashboard"></span> Hide return process data</button>
+          </div>
+        </div>
+
+        <!--Return information display-->
+        <div [hidden]="show_return == false">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="alert">
+                <!--Delivery header-->
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="alert alert-info">
+                      <p><strong>Return Data</strong> ({{logistics_return_parameters?.kolli_id}})</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!--Sensor display-->
+                <div class="row">
+                  <!--Temperature-->
+                  <div class="col-md-6">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': return_temperature_sensor_id !== null, 'alert-danger': return_temperature_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> Temperature</strong> <strong *ngIf="return_temperature_sensor_id === null">(not included)</strong> {{return_temperature_sensor_id}}</p>
+                    </div>
+                    <div class="alert sensor-chart" *ngIf="return_temperature_sensor_id !== null">
+                      <div id="returnTempChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
+                    </div>
+                  </div>
+
+                  <!--Accelerometer-->
+                  <div class="col-md-6">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': return_accelerometer_sensor_id !== null, 'alert-danger': return_accelerometer_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer</strong> <strong *ngIf="return_accelerometer_sensor_id === null">(not included)</strong> {{return_accelerometer_sensor_id}}</p>
+                    </div>
+                    <div class="alert sensor-chart" *ngIf="return_accelerometer_sensor_id !== null">
+                      <div id="returnAccChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <!--Pressure sensor-->
+                  <div class="col-md-6">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': return_pressure_sensor_id !== null, 'alert-danger': return_pressure_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> Pressure</strong> <strong *ngIf="return_pressure_sensor_id === null">(not included)</strong> {{return_pressure_sensor_id}}</p>
+                    </div>
+                    <div class="alert sensor-chart" *ngIf="return_pressure_sensor_id !== null">
+                      <div id="returnPressChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
+                    </div>
+                  </div>
+
+                  <!--Humidity sensor-->
+                  <div class="col-md-6">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': return_humidity_sensor_id !== null, 'alert-danger': return_humidity_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> Humidity</strong> <strong *ngIf="return_humidity_sensor_id === null">(not included)</strong> {{return_humidity_sensor_id}}</p>
+                    </div>
+                    <div class="alert sensor-chart" *ngIf="return_humidity_sensor_id !== null">
+                      <div id="returnHumidityChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--GPS sensor-->
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': return_gps_sensor_id !== null, 'alert-danger': return_gps_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> GPS sensor</strong> <strong *ngIf="return_gps_sensor_id === null">(not included)</strong> {{return_gps_sensor_id}}</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Event table-->
+        <div class="row">
+          <div class="col-lg-12">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Associated event ID</th>
+                <th scope="col">Event Type</th>
+                <th scope="col">Timestamp</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let event of agreement_events">
+                <td scope="row"><a (click)="explore_address(event.event_id)">{{event.event_id}}</a></td>
+                <td scope="row">{{event.event_type}}</td>
+                <td scope="row">{{event.timestamp}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--Verdict button-->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <button class="btn btn-primary form-control">Resolve conflict</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+
   </div>
 </div>

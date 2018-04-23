@@ -1,10 +1,10 @@
-<!--Navigation bar-->
-<nav class="navbar navbar-default navbar-fixed-top">
+<!--Top navigation bar-->
+<nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
 
     <!--Left sidebar-->
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Secure Package</a>
+      <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-book"></span> Secure Package</a>
     </div>
     <ul class="nav navbar-nav">
       <li [ngClass]="{'active': global.globalvars.current_component == 'login'}"><a routerLink="">Home</a></li>
@@ -38,6 +38,20 @@
 <div class="app_contents">
   <router-outlet></router-outlet>
 </div>
+
+<!--Top navigation bar-->
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container-fluid">
+
+    <!--Right sidebar-->
+    <ul class="nav navbar-nav navbar-right">
+      <li><a class="btn" (click)="clerk()">Clerk Administrator</a></li>
+      <li><a class="btn">Contact</a></li>
+      <li><a class="btn">About</a></li>
+      <p class="navbar-text">&copy; Secure Package</p>
+    </ul>
+  </div>
+</nav>
 
 <!--Account information modal-->
 <div id="accountModal" class="modal fade" role="dialog">

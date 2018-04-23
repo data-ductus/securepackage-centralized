@@ -1,8 +1,8 @@
 /* Global stylesheet */
 
 .app_contents {
-  position: absolute;
-  top: 70px;
+  margin-top: 70px;
+  margin-bottom: 70px;
 }
 
 h3 {
@@ -12,6 +12,10 @@ h3 {
 .alert {
   border: 1px solid darkgray;
   border-radius: 0px;
+}
+
+.navbar-fixed-bottom {
+  border: 1px solid darkgrey;
 }
 
 thead {

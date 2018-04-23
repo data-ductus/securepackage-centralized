@@ -73,6 +73,8 @@
             <a (click)="explore_address(address_payload.payload.agreement_id)">0x{{address_payload.payload.agreement_id}}</a></em></h4>
             <pre>"address_type": {{address_type | json}}</pre>
             <pre>{{address_payload | json}}</pre>
+
+            <!--Associated agreement events-->
             <div *ngIf="address_type == 'AGREEMENT'" style="margin-top: 20px">
               <h4><strong><span class="glyphicon glyphicon-list-alt"></span> Associated events</strong></h4>
               <table class="table table-striped">

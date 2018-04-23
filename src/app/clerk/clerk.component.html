@@ -1,3 +1,50 @@
-<p>
-  clerk works! {{address}}
-</p>
+<!--ClerkComponent: handles clerk actions and authorization-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+
+      <!--Clerk login menu-->
+      <div class="row" *ngIf="!clerk_authorized">
+        <div class="col-lg-12">
+          <div class="alert alert-info">
+            <h4><strong>Clerk administrator login</strong></h4>
+            <div class="form-group input-group">
+              <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><span class="glyphicon glyphicon-user"></span></button></span>
+              <input type="text" class="form-control" id="login_usr" [(ngModel)]="clerk_id">
+            </div>
+            <div class="form-group input-group">
+              <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><span class="glyphicon glyphicon-lock"></span></button></span>
+              <input type="password" class="form-control" id="login_pwd" [(ngModel)]="clerk_password">
+              <span class="input-group-btn"><button class="btn btn-success generate-menu-label" type="button" (click)="clerkLogin()">Log in</button></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Unresolved conflict table-->
+      <div class="row" *ngIf="clerk_authorized">
+        <h4><strong><span class="glyphicon glyphicon-list-alt"></span> Unresolved conflicts</strong></h4>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">Agreement ID</th>
+            <th scope="col">Terms ID</th>
+            <th scope="col">Conflict initiated</th>
+            <th scope="col">Violation</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let conflict of clerk_agreements">
+            <td scope="row"><a (click)="manageConflict(conflict.agreement_id)">{{conflict.agreement_id}}</a></td>
+            <td scope="row"><a (click)="explore_address(conflict.terms_id)">{{conflict.terms_id}}</a></td>
+            <td scope="row">{{conflict.timestamp}}</td>
+            <td scope="row" align="center" *ngIf="conflict.violation == '1'"><span class="label label-danger">YES</span></td>
+            <td scope="row" align="center" *ngIf="conflict.violation == '0'"><span class="label label-success">NO</span></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

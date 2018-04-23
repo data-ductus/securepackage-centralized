@@ -14,7 +14,6 @@ export class ApiService {
 
   //Performs a login request
   serverLoginRequest = function(account_data) {
-
     //Append login action to request payload
     account_data.action = "LOGIN";
     let promise = new Promise((resolve) => {
@@ -33,7 +32,6 @@ export class ApiService {
 
   //Performs a server call, able to send and retrieve JSON arrays
   serverRequest = function (payload, action) {
-
     //Append action and timestamp to request payload
     payload.action = action;
     payload.event_timestamp = this.generator.generateCurrentTime();

@@ -37,6 +37,10 @@ export class AppComponent implements OnInit{
     }
   };
 
+  clerk = function() {
+    this.router.navigate(['clerk']);
+  };
+
   updateUserInfo = function() {
     let request_payload = {
       account_id: this.global.globalvars.account_logged_in,

@@ -18,11 +18,11 @@ export class ExplorerComponent implements OnInit {
   address_type;
   address_events;
 
-  recent_events = {};
-  recent_agreements = {};
+  recent_events;
+  recent_agreements;
 
   ngOnInit() {
-    this.global.globalvars.current_component = "explorer";
+    this.global.changeMenu("explorer");
 
     //Fetch address from Route
     this.route.params.subscribe(params => {

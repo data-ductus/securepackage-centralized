@@ -6,7 +6,7 @@
       <!--User's items browser-->
       <div class="row" *ngIf="manager_type == 'forsale'">
         <!--Item display-->
-        <div *ngFor="let item of itemdisplay">
+        <div *ngFor="let item of item_display">
           <div class="alert alert-info">
             <div class="row">
               <div class="col-lg-4">
@@ -49,7 +49,7 @@
         <div class="col-lg-12">
 
           <!--Item display-->
-          <div *ngFor="let item of purchasedisplay" class="alert alert-info" style="cursor: pointer">
+          <div *ngFor="let item of purchase_display" class="alert alert-info" style="cursor: pointer">
             <div class="row" (click)="moveToAgreement(item.agreement_id)">
               <div class="col-lg-4">
                 <img src={{item.image}} alt="800x600" border="0" class="item_image">
@@ -88,7 +88,7 @@
           </div>
 
           <!--Proposal display-->
-          <div *ngFor="let terms of proposaldisplay">
+          <div *ngFor="let terms of proposal_display">
             <div *ngIf="terms.status == proposal_state_chosen">
               <div class="alert" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': terms.status == 'DENIED'}">
                 <div class="form-group">

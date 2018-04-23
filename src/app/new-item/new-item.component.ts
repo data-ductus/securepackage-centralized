@@ -39,9 +39,9 @@ export class NewItemComponent implements OnInit {
   constructor(private generator: GenerationService, private api: ApiService, private global: GlobalvarsService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.global.changeMenu("newitem");
     this.item_id = this.generator.generate160bitId();
     this.terms_id = this.generator.generate160bitId();
-    this.global.globalvars.current_component = "newitem";
   }
 
   //Adds new item, sends parameters to database via API

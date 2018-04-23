@@ -16,4 +16,8 @@ export class GlobalvarsService {
   };
 
   constructor() { }
+
+  changeMenu = function(new_menu) {
+    this.globalvars.current_component = new_menu;
+  }
 }

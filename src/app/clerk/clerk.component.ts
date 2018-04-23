@@ -18,6 +18,7 @@ export class ClerkComponent implements OnInit {
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private global: GlobalvarsService) { }
 
   ngOnInit() {
+    this.global.changeMenu(null);
     this.route.params.subscribe(params => {
       if (params['id'] != undefined) {
         this.address = params['id'];

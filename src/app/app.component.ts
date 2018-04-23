@@ -49,5 +49,7 @@ export class AppComponent implements OnInit{
       postcode: this.global.globalvars.account_postal_code
     };
     this.api.serverRequest(request_payload, "UPDATE_USER_INFO").then(data => console.log(data));
-  }
+  };
+
+
 }

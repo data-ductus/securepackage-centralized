@@ -39,7 +39,7 @@ export class ItemComponent implements OnInit {
   constructor(private route: ActivatedRoute, private api: ApiService, private generator: GenerationService, private global: GlobalvarsService) { }
 
   ngOnInit() {
-    this.global.globalvars.current_component = "items";
+    this.global.changeMenu("items");
     this.route.params.subscribe(params => {
       this.agreement_id = params['id'];
       this.fetchAgreementDetails();

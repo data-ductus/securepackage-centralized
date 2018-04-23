@@ -10,9 +10,9 @@ import {GenerationService} from '../services/generation.service';
 export class ItemManagerComponent implements OnInit {
 
   //Information display arrays
-  itemdisplay = {};
-  proposaldisplay = {};
-  purchasedisplay = {};
+  item_display;
+  proposal_display;
+  purchase_display;
 
   //Current menu
   manager_type;
@@ -26,7 +26,7 @@ export class ItemManagerComponent implements OnInit {
   constructor(private global: GlobalvarsService, private api: ApiService, private route: ActivatedRoute, private router: Router, private generator: GenerationService) { }
 
   ngOnInit() {
-    this.global.globalvars.current_component = "itemmanager";
+    this.global.changeMenu("itemmanager");
     this.route.params.subscribe(params => {this.manager_type = params['action'];});
     this.fetchUserItems();
     this.fetchUserPurchases();
@@ -37,19 +37,19 @@ export class ItemManagerComponent implements OnInit {
   //Fetches user's items
   fetchUserItems = function() {
     let request_payload = {user_search: this.global.globalvars.account_logged_in};
-    this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.itemdisplay = response})
+    this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.item_display = response})
   };
 
   //Fetches user's proposals
   fetchUserProposals = function() {
     let request_payload = {user_search: this.global.globalvars.account_logged_in};
-    this.api.serverRequest(request_payload, "FETCH_USER_PROPOSALS").then(response => {this.proposaldisplay = response})
+    this.api.serverRequest(request_payload, "FETCH_USER_PROPOSALS").then(response => {this.proposal_display = response})
   };
 
   //Fetches user's purchases
   fetchUserPurchases = function() {
     let request_payload = {buyer_search: this.global.globalvars.account_logged_in};
-    this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.purchasedisplay = response})
+    this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.purchase_display = response})
   };
 
   //Fetches terms of a given item/agreement

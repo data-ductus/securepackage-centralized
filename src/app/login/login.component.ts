@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.generateKeys();
-    this.global.globalvars.current_component = "login";
+    this.global.changeMenu("login");
     if (this.global.globalvars.account_logged_in != null) {
       this.router.navigate(['items']);
     }

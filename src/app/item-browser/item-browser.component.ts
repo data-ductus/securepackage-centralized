@@ -7,12 +7,12 @@ import {Router, ActivatedRoute} from '@angular/router';
 @Component({selector: 'app-item-browser', templateUrl: './item-browser.component.html'})
 
 export class ItemBrowserComponent implements OnInit {
-  item_display = {};
+  item_display;
 
   constructor(private global: GlobalvarsService, private api: ApiService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.global.globalvars.current_component = "items";
+    this.global.changeMenu("items");
     this.fetchAllAgreements();
   }
 

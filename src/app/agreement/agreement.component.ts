@@ -54,6 +54,7 @@ export class AgreementComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private api: ApiService, private generator: GenerationService, private global: GlobalvarsService, private amCharts: AmChartsService) { }
 
   ngOnInit() {
+    this.global.changeMenu("itemmanager");
     this.route.params.subscribe(params => {
       this.agreement_id = params['id'];
       this.initCharts();

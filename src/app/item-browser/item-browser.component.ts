@@ -13,7 +13,9 @@ export class ItemBrowserComponent implements OnInit {
 
   ngOnInit() {
     this.global.changeMenu("items");
+    this.global.globalvars.clerk_logged_in = null;
     this.fetchAllAgreements();
+    this.api.serverRequest({agreement_id: "dec1cb540229da9827e0560b7d3d886b01e2824c"}, "FETCH_LOGISTICS_INFO")
   }
 
   //Fetches all items, that are up for sale
@@ -25,5 +27,5 @@ export class ItemBrowserComponent implements OnInit {
   //Navigates to ItemComponent to view the clicked item in detail
   agreementClick = function (agreement_id) {
     this.router.navigate(['item', agreement_id]);
-  }
+  };
 }

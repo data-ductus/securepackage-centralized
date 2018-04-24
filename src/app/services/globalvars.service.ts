@@ -12,7 +12,8 @@ export class GlobalvarsService {
     account_street_address: null,
     account_city: null,
     account_postal_code: null,
-    current_component: ""
+    current_component: "",
+    clerk_logged_in: null
   };
 
   constructor() { }

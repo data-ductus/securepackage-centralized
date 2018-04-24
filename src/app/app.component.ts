@@ -25,6 +25,11 @@ export class AppComponent implements OnInit{
     this.router.navigate(['']);
   };
 
+  logoutClerk = function() {
+    this.global.globalvars.clerk_logged_in = null;
+    this.router.navigate(['clerk']);
+  };
+
   itemmanager = function(arg) {
     if (this.global.globalvars.account_logged_in != null) {
       this.router.navigate(['itemmanager', arg]);
@@ -38,6 +43,7 @@ export class AppComponent implements OnInit{
   };
 
   clerk = function() {
+    this.logout();
     this.router.navigate(['clerk']);
   };
 

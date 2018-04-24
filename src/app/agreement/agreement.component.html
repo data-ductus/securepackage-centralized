@@ -8,6 +8,29 @@
     </div>
   </div>
 
+  <!--Clerk message display-->
+  <div *ngIf="item_agreement_params?.state == 'RESOLVED'" class="row">
+    <div class="col-lg-12">
+      <div class="alert alert-warning">
+        <div class="row">
+          <div class="col-lg-12">
+            <h4><strong><span class="glyphicon glyphicon-education"></span> Clerk decision</strong></h4>
+            <div class="alert" style="background-color: white">
+              <p><strong><span class="glyphicon glyphicon-education"></span> Resolved by:</strong> {{clerk_decision?.clerk_id}}</p>
+              <p><strong><span class="glyphicon glyphicon-user"></span> Liable party:</strong> {{clerk_decision?.liable_party}}</p>
+              <p><strong><span class="glyphicon glyphicon-comment"></span> Message:</strong> {{clerk_decision?.message}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="row" align="center" *ngIf="!clerk_confirmed">
+          <div class="col-lg-12">
+            <button class="btn btn-success" (click)="confirmClerk()"><span class="glyphicon glyphicon-ok"></span> Confirm decision</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!--Buyer approval buttons-->
   <div class="row" *ngIf="item_agreement_params?.buyer_id == global.globalvars.account_logged_in && item_agreement_params?.state == 'DELIVERED'">
     <div class="col-lg-12 form-group" align="center">
@@ -77,7 +100,7 @@
   </div>
 
   <!--Logistics information-->
-  <div *ngIf="item_agreement_params?.state != 'LOCKED' && item_agreement_params?.state != 'CLERK' && item_agreement_params?.state != 'REJECTED'">
+  <div *ngIf="item_agreement_params?.state != 'LOCKED' && item_agreement_params?.state != 'CLERK' && item_agreement_params?.state != 'REJECTED' && item_agreement_params?.state != 'RESOLVED' && item_agreement_params?.state != null">
     <!--Logistics identifier header-->
     <div class="row">
       <div class="col-lg-12">
@@ -167,8 +190,15 @@
     </div>
   </div>
 
-  <!--Event table-->
   <div class="row">
+    <div class="col-lg-12 form-group">
+      <button *ngIf="show_events == false" class="btn btn-success form-control" (click)="show_events = true"><span class="glyphicon glyphicon-dashboard"></span> Show related events</button>
+      <button *ngIf="show_events == true" class="btn btn-danger form-control" (click)="show_events = false"><span class="glyphicon glyphicon-dashboard"></span> Hide related events</button>
+    </div>
+  </div>
+
+  <!--Event table-->
+  <div class="row" *ngIf="show_events">
     <div class="col-lg-12">
       <table class="table table-striped">
         <thead>

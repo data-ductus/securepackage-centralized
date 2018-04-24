@@ -12,10 +12,10 @@ export class ClerkComponent implements OnInit {
 
   clerk_id = "admin"; //For testing
   clerk_password = "admin"; //For testing
-  clerk_authorized = false;
 
-  //List of agreements with 'CLERK' state
+  //List of clerk agreements
   clerk_agreements;
+  clerk_resolved_agreements;
 
   //Agreement parameters
   agreement_details;
@@ -23,10 +23,12 @@ export class ClerkComponent implements OnInit {
   agreement_buyer_details;
   agreement_events;
   agreement_terms;
+  agreement_resolvement;
 
-  //Booleans for chart display
+  //Booleans for chart and table display
   show_delivery = false;
   show_return = false;
+  show_events = false;
 
   // Ligistics parameters
   logistics_delivery_parameters;
@@ -73,17 +75,24 @@ export class ClerkComponent implements OnInit {
   private returnAccChart: AmChart;
   private returnHumidityChart: AmChart;
 
+  //Resolving variables
+  liable_party = "BUYER";
+  resolve_message;
+
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private global: GlobalvarsService, private amCharts: AmChartsService) { }
 
   ngOnInit() {
     this.global.changeMenu(null);
     this.initDeliveryCharts();
     this.initReturnCharts();
+    this.api.serverRequest({}, "FETCH_CLERK_AGREEMENTS").then(data => this.clerk_agreements = data);
+    this.api.serverRequest({}, "FETCH_RESOLVED_AGREEMENTS").then(data => this.clerk_resolved_agreements = data);
     this.route.params.subscribe(params => {
       if (params['id'] != undefined) {
         this.address = params['id'];
         this.api.serverRequest({id: this.address}, "FETCH_ADDRESS"). then(data => {
           this.agreement_details = data["payload"];
+          this.api.serverRequest({id: this.address}, "FETCH_CLERK_DECISION").then(response => {this.agreement_resolvement = response});
           this.api.serverRequest({account_id: this.agreement_details["buyer_id"]}, "FETCH_ACCOUNT").then(data => this.agreement_buyer_details = data);
           this.api.serverRequest({account_id: this.agreement_details["seller_id"]}, "FETCH_ACCOUNT").then(data => this.agreement_seller_details = data);
           this.api.serverRequest({id: this.address}, "FETCH_ADDRESS_EVENTS").then(data => this.agreement_events = data);
@@ -180,6 +189,7 @@ export class ClerkComponent implements OnInit {
                 } else if (sensor.sensor_type === 'HUMID') {
                   this.return_humidity_sensor_id = sensor.sensor_id;
                   this.api.serverRequest({sensor_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
+                    let sensord = data;
                     let time = 0;
                     for (let output of data) {
                       let step = {'humidity': output.output, 'time': time};
@@ -201,10 +211,7 @@ export class ClerkComponent implements OnInit {
   clerkLogin = function() {
     let request_payload = {address: this.clerk_id, password: this.clerk_password};
     this.api.serverRequest(request_payload, "CLERK_LOGIN").then(userdata => {
-      if (userdata != null) {
-        this.clerk_authorized = true;
-        this.api.serverRequest({}, "FETCH_CLERK_AGREEMENTS").then(data => this.clerk_agreements = data);
-      }
+      if (userdata != null) { this.global.globalvars.clerk_logged_in = this.clerk_id }
     });
   };
 
@@ -293,4 +300,9 @@ export class ClerkComponent implements OnInit {
       } ]
     } );
   };
+
+  resolveConflict = function() {
+    let request_payload = {id: this.address, liable_party: this.liable_party, message: this.resolve_message, clerk_id: this.global.globalvars.clerk_logged_in};
+    this.api.serverRequest(request_payload, "RESOLVE_CONFLICT").then(data => this.router.navigate(["clerk"]));
+  }
 }

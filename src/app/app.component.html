@@ -16,20 +16,27 @@
       <li [ngClass]="{'active': global.globalvars.current_component == 'explorer'}"><a routerLink="explorer">Explorer</a></li>
     </ul>
 
-    <!--Right sidebar-->
+    <!--Right sidebar user-->
     <ul class="nav navbar-nav navbar-right" [hidden]="global.globalvars.account_logged_in == null">
       <li [ngClass]="{'active': global.globalvars.current_component == 'newitem'}">
         <a (click)="newitem()" class="btn"><span class="glyphicon glyphicon-plus"></span> New item</a></li>
       <li class="dropdown" [ngClass]="{'active': global.globalvars.current_component == 'itemmanager'}">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list"></span> Item manager <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a (click)="itemmanager('forsale')"><span class="glyphicon glyphicon-export"></span> My adverts</a></li>
+          <li><a (click)="itemmanager('adverts')"><span class="glyphicon glyphicon-export"></span> My adverts</a></li>
           <li><a (click)="itemmanager('bought')"><span class="glyphicon glyphicon-import"></span> Bought items</a></li>
           <li><a (click)="itemmanager('proposed')"><span class="glyphicon glyphicon-file"></span> My proposals</a></li>
+          <li><a (click)="itemmanager('history')"><span class="glyphicon glyphicon-backward"></span> Item history</a></li>
         </ul>
       </li>
       <li><a class="btn" data-toggle="modal" data-target="#accountModal"><span class="glyphicon glyphicon-user"></span> {{global.globalvars.account_logged_in}}</a></li>
       <li><a (click)="logout()" class="btn"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+    </ul>
+
+    <!--Right sidebar clerk-->
+    <ul class="nav navbar-nav navbar-right" [hidden]="global.globalvars.clerk_logged_in == null">
+      <li><a class="btn" (click)="clerk()"><span class="glyphicon glyphicon-education"></span> {{global.globalvars.clerk_logged_in}}</a></li>
+      <li><a (click)="logoutClerk()" class="btn"><span class="glyphicon glyphicon-log-out"></span> Log out clerk</a></li>
     </ul>
   </div>
 </nav>

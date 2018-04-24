@@ -19,6 +19,8 @@ export class AgreementComponent implements OnInit {
   item_terms;
   logistics_params;
   agreement_events;
+  clerk_decision;
+  clerk_confirmed = false;
 
   //Charts
   private tempChart: AmChart;
@@ -52,10 +54,12 @@ export class AgreementComponent implements OnInit {
 
   show_sensors = false;
   show_gps = false;
+  show_events = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private api: ApiService, private generator: GenerationService, private global: GlobalvarsService, private amCharts: AmChartsService) { }
 
   ngOnInit() {
+    this.global.globalvars.clerk_logged_in = null;
     this.global.changeMenu("itemmanager");
     this.route.params.subscribe(params => {
       this.agreement_id = params['id'];
@@ -123,6 +127,15 @@ export class AgreementComponent implements OnInit {
       this.api.serverRequest(request_payload, "FETCH_AGREEMENT_TERMS").then(response => this.item_terms = response[0]);
       this.api.serverRequest(request_payload, "FETCH_ADDRESS_EVENTS").then(response => this.agreement_events = response);
 
+      if (response.state == 'RESOLVED') {
+        this.api.serverRequest(request_payload, "FETCH_CLERK_DECISION").then(response => {
+          this.clerk_decision = response;
+          if((this.global.globalvars.account_logged_in == this.item_agreement_params["buyer_id"] && response["buyer_confirm"] == '1') ||
+            (this.global.globalvars.account_logged_in == this.item_agreement_params["seller_id"] && response["seller_confirm"] == '1')) {
+            this.clerk_confirmed = true;
+          }
+        });
+      }
       //Fetch essential logistics parameters
       this.api.serverRequest({agreement_id: this.agreement_id, direction: this.direction}, "FETCH_LOGISTICS_PARAMETERS").then(response => {
         this.logistics_params = response;
@@ -215,5 +228,10 @@ export class AgreementComponent implements OnInit {
   //Redirects to ExplorerComponent with a given address as a parameter
   explore_address = function (address) {
     this.router.navigate(['explorer', address]);
+  };
+
+  confirmClerk = function() {
+    let request_payload = {agreement_id: this.agreement_id, account_id: this.global.globalvars.account_logged_in};
+    this.api.serverRequest(request_payload, "CONFIRM_CLERK_DECISION").then(data => this.router.navigate(['agreement', this.agreement_id]));
   }
 }

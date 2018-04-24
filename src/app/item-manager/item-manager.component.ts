@@ -13,6 +13,7 @@ export class ItemManagerComponent implements OnInit {
   item_display;
   proposal_display;
   purchase_display;
+  history_display;
 
   //Current menu
   manager_type;
@@ -23,14 +24,19 @@ export class ItemManagerComponent implements OnInit {
   //Default state
   proposal_state_chosen = "PROPOSED";
 
+  //Helper button for deletion modal
+  item_to_delete;
+
   constructor(private global: GlobalvarsService, private api: ApiService, private route: ActivatedRoute, private router: Router, private generator: GenerationService) { }
 
   ngOnInit() {
     this.global.changeMenu("itemmanager");
+    this.global.globalvars.clerk_logged_in = null;
     this.route.params.subscribe(params => {this.manager_type = params['action'];});
     this.fetchUserItems();
     this.fetchUserPurchases();
     this.fetchUserProposals();
+    this.fetchUserHistory();
   }
 
 
@@ -52,6 +58,11 @@ export class ItemManagerComponent implements OnInit {
     this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.purchase_display = response})
   };
 
+  fetchUserHistory = function() {
+    let request_payload = {account_id: this.global.globalvars.account_logged_in};
+    this.api.serverRequest(request_payload, "FETCH_ACCOUNT_HISTORY").then(response => {this.history_display = response})
+  };
+
   //Fetches terms of a given item/agreement
   fetchItemTerms = function(item_id) {
     this.proposal_state_chosen = "PROPOSED";
@@ -62,29 +73,36 @@ export class ItemManagerComponent implements OnInit {
   //Removes a proposal
   removeProposal = function(terms_id) {
     let request_payload = {terms: terms_id};
-    this.api.serverRequest(request_payload, "REMOVE_PROPOSAL").then(response => console.log(response));
+    this.api.serverRequest(request_payload, "REMOVE_PROPOSAL").then(response => this.fetchUserProposals());
   };
 
   //Rejects a proposal
   rejectProposal = function(terms_id) {
     let request_payload = {terms: terms_id};
-    this.api.serverRequest(request_payload, "REJECT_PROPOSAL").then(response => console.log(response));
+    this.api.serverRequest(request_payload, "REJECT_PROPOSAL").then(response => {
+      this.fetchUserItems();
+      this.router.navigate(['itemmanager', 'adverts'])
+    });
   };
 
   //Accepts a proposal
   acceptProposal = function (terms_id, agreement_id, buyer_id) {
     let request_payload = {terms: terms_id, agreement: agreement_id, time: this.generator.generateCurrentTime(), buyer: buyer_id};
-    this.api.serverRequest(request_payload, "ACCEPT_PROPOSAL").then(response => console.log(response));
+    this.api.serverRequest(request_payload, "ACCEPT_PROPOSAL").then(response => this.fetchUserItems());
   };
 
   //Removes/inactivates an item/agreement
-  removeItem = function (agreement_id) {
-    let request_payload = {agreement: agreement_id};
-    this.api.serverRequest(request_payload, "REMOVE_ITEM").then(response => console.log(response));
+  removeItem = function () {
+    let request_payload = {agreement: this.item_to_delete};
+    this.api.serverRequest(request_payload, "REMOVE_ITEM").then(response => this.fetchUserItems());
   };
 
   //Navigates to AgreementComponent for detailed viewing of an accepted agreement
   moveToAgreement = function (agreement_id) {
     this.router.navigate(['agreement', agreement_id]);
-  }
+  };
+
+  exploreAddress = function(address) {
+    this.router.navigate(['explorer', address]);
+  };
 }

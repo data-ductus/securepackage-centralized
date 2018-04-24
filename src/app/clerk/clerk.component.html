@@ -4,7 +4,7 @@
     <div class="col-lg-8 col-lg-offset-2">
 
       <!--Clerk login menu-->
-      <div class="row" *ngIf="!clerk_authorized && address == null">
+      <div class="row" *ngIf="global.globalvars.clerk_logged_in == null">
         <div class="col-lg-12">
           <div class="alert alert-info">
             <h4><strong>Clerk administrator login</strong></h4>
@@ -22,7 +22,7 @@
       </div>
 
       <!--Unresolved conflict table-->
-      <div class="row" *ngIf="clerk_authorized && address == null">
+      <div class="row" *ngIf="global.globalvars.clerk_logged_in != null && address == null">
         <div class="col-lg-12">
           <h4><strong><span class="glyphicon glyphicon-list-alt"></span> Unresolved conflicts</strong></h4>
           <table class="table table-striped">
@@ -47,11 +47,46 @@
         </div>
       </div>
 
+      <!--Resolved conflict table-->
+      <div class="row" *ngIf="global.globalvars.clerk_logged_in != null && address == null">
+        <div class="col-lg-12">
+          <h4><strong><span class="glyphicon glyphicon-list-alt"></span> Resolved conflicts</strong></h4>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Agreement ID</th>
+              <th scope="col">Generated clerk event</th>
+              <th scope="col">Conflict resolved</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let conflict of clerk_resolved_agreements">
+              <td scope="row"><a (click)="manageConflict(conflict.target_agreement)">{{conflict.target_agreement}}</a></td>
+              <td scope="row"><a (click)="exploreAddress(conflict.event_id)">{{conflict.event_id}}</a></td>
+              <td scope="row">{{conflict.timestamp}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!--Agreement resolvement display-->
-      <div *ngIf="address != null">
+      <div *ngIf="address != null && global.globalvars.clerk_logged_in != null">
         <div class="row">
           <div class="col-lg-12">
             <h3><strong><span class="glyphicon glyphicon-education"></span> Clerk dashboard (<a (click)="exploreAddress(address)">0x{{address}}</a>)</strong></h3>
+          </div>
+        </div>
+
+        <!--Resolvement display (for resolved agreements)-->
+        <div class="row" *ngIf="agreement_details?.state == 'RESOLVED'">
+          <div class="col-lg-12">
+            <div class="alert alert-warning">
+              <h4><strong>Resolvement</strong></h4>
+              <p><span class="glyphicon glyphicon-education"></span> Resolved by: {{agreement_resolvement?.clerk_id}}</p>
+              <p><span class="glyphicon glyphicon-user"></span> Liable party: {{agreement_resolvement?.liable_party}}</p>
+              <p><span class="glyphicon glyphicon-comment"></span> Comment: {{agreement_resolvement?.message}}</p>
+            </div>
           </div>
         </div>
 
@@ -84,7 +119,7 @@
               <h4><strong>General information</strong></h4>
               <p><strong><span class="glyphicon glyphicon-file"></span> Item:</strong> {{agreement_details?.item.title}}</p>
               <p><strong><span class="glyphicon glyphicon-credit-card"></span> Price:</strong> {{agreement_terms?.price}} SEK</p>
-              <p><strong><span class="glyphicon glyphicon-user"></span> Current state:</strong> {{agreement_details?.state}}</p>
+              <p><strong><span class="glyphicon glyphicon-cog"></span> Current state:</strong> {{agreement_details?.state}}</p>
               <p><strong><span class="glyphicon glyphicon-list-alt"></span> Number of proposals:</strong> {{agreement_details?.terms.length - 1}} proposals</p>
               <p><strong><span class="glyphicon glyphicon-list-alt"></span> Number of events:</strong> {{agreement_events?.length}} events</p>
             </div>
@@ -286,8 +321,16 @@
           </div>
         </div>
 
-        <!--Event table-->
+        <!--Event display buttons-->
         <div class="row">
+          <div class="col-lg-12 form-group">
+            <button *ngIf="show_events == false" class="btn btn-success form-control" (click)="show_events = true"><span class="glyphicon glyphicon-dashboard"></span> Show related events</button>
+            <button *ngIf="show_events == true" class="btn btn-danger form-control" (click)="show_events = false"><span class="glyphicon glyphicon-dashboard"></span> Hide related events</button>
+          </div>
+        </div>
+
+        <!--Event table-->
+        <div class="row" *ngIf="show_events">
           <div class="col-lg-12">
             <table class="table table-striped">
               <thead>
@@ -309,10 +352,10 @@
         </div>
 
         <!--Verdict button-->
-        <div class="row">
+        <div class="row" *ngIf="agreement_details?.state == 'CLERK'">
           <div class="col-lg-12">
             <div class="form-group">
-              <button class="btn btn-primary form-control">Resolve conflict</button>
+              <button class="btn btn-primary form-control" data-toggle="modal" data-target="#conflictModal"><span class="glyphicon glyphicon-education"></span> Resolve conflict</button>
             </div>
           </div>
         </div>
@@ -320,5 +363,45 @@
       </div>
     </div>
 
+    <!--Conflict resolving modal-->
+    <div id="conflictModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!--Header-->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><span class="glyphicon glyphicon-education"></span> Resolve conflict</h4>
+          </div>
+
+          <!--Body-->
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="liable_party_select"><span class="glyphicon glyphicon-user"></span> Liable party</label>
+              <select class="form-control" id="liable_party_select" [(ngModel)]="liable_party">
+                <option disabled>Choose option...</option>
+                <option selected="selected">BUYER</option>
+                <option>SELLER</option>
+                <option>LOGISTICS</option>
+                <option>UNDECIDABLE</option>
+              </select>
+            </div>
+
+            <!--Description-->
+            <div class="form-group">
+              <label for="item_description"><span class="glyphicon glyphicon-comment"></span> Message</label>
+              <textarea class="form-control" id="item_description" [(ngModel)]="resolve_message"></textarea>
+            </div>
+          </div>
+
+          <!--Footer-->
+          <div class="modal-footer">
+            <button type="button" (click)="resolveConflict()" class="btn btn-success" data-dismiss="modal">Resolve</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+

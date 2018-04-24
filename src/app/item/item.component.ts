@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ApiService} from '../services/api.service';
 import {GenerationService} from '../services/generation.service';
 import {GlobalvarsService} from '../services/globalvars.service';
@@ -36,10 +36,11 @@ export class ItemComponent implements OnInit {
   //Default status of proposal display
   proposal_state_chosen = "PROPOSED";
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private generator: GenerationService, private global: GlobalvarsService) { }
+  constructor(private route: ActivatedRoute, private api: ApiService, private generator: GenerationService, private global: GlobalvarsService, private router: Router) { }
 
   ngOnInit() {
     this.global.changeMenu("items");
+    this.global.globalvars.clerk_logged_in = null;
     this.route.params.subscribe(params => {
       this.agreement_id = params['id'];
       this.fetchAgreementDetails();
@@ -110,6 +111,6 @@ export class ItemComponent implements OnInit {
       sensor_accelerometer: this.sensor_accelerometer,
       sensor_gps: this.terms_gps
     };
-    this.api.serverRequest(request_payload, "PROPOSE_TERMS").then(data => console.log(data));
+    this.api.serverRequest(request_payload, "PROPOSE_TERMS").then(data => this.fetchAgreementDetails());
   }
 }

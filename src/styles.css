@@ -100,3 +100,19 @@ agm-map {
 .sensor-select {
   width: 100%;
 }
+
+/*==============================ClerkComponent============================*/
+
+.radio-lightblue [type="radio"]:checked+label:after {
+  border-color: #d9edf7;
+  background-color: #d9edf7;
+}
+
+.radio-lightblue-gap [type="radio"].with-gap:checked+label:before {
+  border-color: #d9edf7;
+}
+
+.radio-lightblue-gap [type="radio"]:checked+label:after {
+  border-color: #d9edf7;
+  background-color: #d9edf7;
+}

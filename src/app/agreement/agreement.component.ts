@@ -60,6 +60,7 @@ export class AgreementComponent implements OnInit {
 
   ngOnInit() {
     this.global.globalvars.clerk_logged_in = null;
+    this.global.checkUserAuthentication();
     this.global.changeMenu("itemmanager");
     this.route.params.subscribe(params => {
       this.agreement_id = params['id'];

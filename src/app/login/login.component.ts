@@ -80,11 +80,7 @@ export class LoginComponent implements OnInit {
     this.api.serverLoginRequest(request_payload).then(userdata => {
       //If user exists, set global variables and log in to the service
       if (userdata != null) {
-        this.global.globalvars.account_logged_in = userdata["address"];
-        this.global.globalvars.account_full_name = userdata["name"];
-        this.global.globalvars.account_street_address = userdata["street_address"];
-        this.global.globalvars.account_postal_code = userdata["postcode"];
-        this.global.globalvars.account_city = userdata["city"];
+        this.global.setUserVariables(userdata["address"], userdata["name"], userdata["street_address"], userdata["city"], userdata["postcode"]);
         this.router.navigate(['items']);
       }
       else if (userdata == null) {

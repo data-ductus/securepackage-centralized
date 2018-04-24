@@ -41,6 +41,7 @@ export class NewItemComponent implements OnInit {
   ngOnInit() {
     this.global.changeMenu("newitem");
     this.global.globalvars.clerk_logged_in = null;
+    this.global.checkUserAuthentication();
     this.item_id = this.generator.generate160bitId();
     this.terms_id = this.generator.generate160bitId();
   }

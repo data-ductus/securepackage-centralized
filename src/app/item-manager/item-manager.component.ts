@@ -32,7 +32,10 @@ export class ItemManagerComponent implements OnInit {
   ngOnInit() {
     this.global.changeMenu("itemmanager");
     this.global.globalvars.clerk_logged_in = null;
-    this.route.params.subscribe(params => {this.manager_type = params['action'];});
+    this.global.checkUserAuthentication();
+
+    this.route.params.subscribe(params => this.manager_type = params['action']);
+
     this.fetchUserItems();
     this.fetchUserPurchases();
     this.fetchUserProposals();

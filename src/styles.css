@@ -60,14 +60,7 @@ agm-map {
   background-color: grey;
 }
 
-.item_container {
-  background-color: lightblue;
-  margin-bottom: 10px;
-  padding: 20px;
-  border: 1px solid black;
-}
-
-.item_image {
+.item_image_single {
   width: 100%;
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from '../services/api.service';
 import {GlobalvarsService} from '../services/globalvars.service';

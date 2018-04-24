@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AmChartsModule } from '@amcharts/amcharts3-angular';
 import { AgmCoreModule } from '@agm/core';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from './services/api.service';
 import { GlobalvarsService } from './services/globalvars.service';
@@ -52,6 +53,7 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
+    ToastModule.forRoot(),
     FormsModule,
     AmChartsModule,
     HttpClientModule,

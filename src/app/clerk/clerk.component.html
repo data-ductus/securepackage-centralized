@@ -223,17 +223,17 @@
                       <div id="deliveryHumidityChartDiv" [style.width.%]="100" [style.height.px]="400"></div>
                     </div>
                   </div>
+                </div>
 
-                  <!--GPS sensor-->
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="alert sensor-header" [ngClass]="{'alert-success': delivery_gps_sensor_id !== null, 'alert-danger': delivery_gps_sensor_id === null}">
-                        <p><strong><span class="glyphicon glyphicon-dashboard"></span> GPS sensor</strong> <strong *ngIf="delivery_gps_sensor_id === null">(not included)</strong> {{delivery_gps_sensor_id}}</p>
-                      </div>
+                <!--GPS sensor-->
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="alert sensor-header" [ngClass]="{'alert-success': delivery_gps_sensor_id !== null, 'alert-danger': delivery_gps_sensor_id === null}">
+                      <p><strong><span class="glyphicon glyphicon-dashboard"></span> GPS sensor</strong> <strong *ngIf="delivery_gps_sensor_id === null">(not included)</strong> {{delivery_gps_sensor_id}}</p>
                     </div>
                   </div>
-
                 </div>
+
               </div>
             </div>
           </div>

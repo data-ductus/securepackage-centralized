@@ -130,6 +130,9 @@ export class AgreementComponent implements OnInit {
       else if (this.item_agreement_params.state == "RETURN" || this.item_agreement_params.state == "RETURNED") {
         this.direction = "RETURN";
       }
+      else if (this.item_agreement_params.state == "INACTIVE") {
+        this.router.navigate(['itemmanager', 'adverts']);
+      }
 
       //Fetch essential agreement parameters
       this.api.serverRequest(request_payload, "FETCH_AGREEMENT_ITEM").then(response => this.item_item_params = response);

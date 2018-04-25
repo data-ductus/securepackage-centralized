@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
 /* GlobalvarsService: stores global variables in a JSON object */
+
 @Injectable()
 
 export class GlobalvarsService {

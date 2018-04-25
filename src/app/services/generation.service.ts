@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 
 /* GenerationService: contains helper function for time, hash, ID and byte array generation */
+
 @Injectable()
+
 export class GenerationService {
 
   constructor() { }

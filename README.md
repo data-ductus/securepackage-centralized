@@ -1,27 +1,14 @@
-# SecurepackageCentralized
+# Securepackage-Centralized
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+Front-end interface for the centralized implementation of Secure Package thesis work. 
+Uses a backend, which can be found [here](https://github.com/data-ductus/securepackage-api). The transport
+is simulated by the simulator, located [here](https://github.com/data-ductus/securepackage-simulation). 
+The project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3. 
 
-## Development server
+## Dependency installation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Download the project and run `npm install`, assuming node.js is installed.
 
-## Code scaffolding
+## Deployment
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Run `ng serve` for a dev server. Navigate to `http://localhost:1337/`. The app will automatically reload if you change any of the source files.

@@ -69,7 +69,9 @@ export class AgreementComponent implements OnInit {
     });
   }
 
-  //Initializes charts
+  /**
+   * Initializes charts, sets data sources.
+   */
   private initCharts = function() {
     this.tempChart = this.amCharts.makeChart( 'tempChartDiv', {
       'type': 'serial',
@@ -109,7 +111,9 @@ export class AgreementComponent implements OnInit {
     } );
   };
 
-  //Fetches agreement details and sets necessary variables
+  /**
+   * Fetches agreement details and sets necessary variables.
+   */
   fetchAgreementDetails = function () {
     let request_payload = {id: this.agreement_id, status: "ACCEPTED"};
     this.api.serverRequest(request_payload, "FETCH_AGREEMENT_INFO").then(response => {
@@ -128,6 +132,7 @@ export class AgreementComponent implements OnInit {
       this.api.serverRequest(request_payload, "FETCH_AGREEMENT_TERMS").then(response => this.item_terms = response[0]);
       this.api.serverRequest(request_payload, "FETCH_ADDRESS_EVENTS").then(response => this.agreement_events = response);
 
+      //If the agreement is resolved, fetch clerk decision
       if (response.state == 'RESOLVED') {
         this.api.serverRequest(request_payload, "FETCH_CLERK_DECISION").then(response => {
           this.clerk_decision = response;
@@ -139,6 +144,7 @@ export class AgreementComponent implements OnInit {
           }
         });
       }
+
       //Fetch essential logistics parameters
       this.api.serverRequest({agreement_id: this.agreement_id, direction: this.direction}, "FETCH_LOGISTICS_PARAMETERS").then(response => {
         this.logistics_params = response;
@@ -203,35 +209,49 @@ export class AgreementComponent implements OnInit {
     });
   };
 
-  //Accepts the delivery
+  /**
+   * Accepts the delivery.
+   */
   acceptItem = function () {
     this.api.serverRequest({agreement_id: this.agreement_id, state: "COMPLETED"}, "ALTER_STATE").then();
     this.router.navigate(['itemmanager', 'history']);
   };
 
-  //Rejects the delivery
+  /**
+   * Rejects the delivery.
+   */
   rejectItem = function () {
     this.api.serverRequest({agreement_id: this.agreement_id, state: "REJECTED"}, "ALTER_STATE").then();
     this.router.navigate(['itemmanager', 'bought']);
   };
 
-  //Accepts the return
+  /**
+   * Accepts the return.
+   */
   acceptReturn = function () {
     this.api.serverRequest({agreement_id: this.agreement_id, state: "INACTIVE"}, "ALTER_STATE").then();
     this.router.navigate(['itemmanager', 'history']);
   };
 
-  //Rejects the return
+  /**
+   * Rejects the return.
+   */
   rejectReturn = function () {
     this.api.serverRequest({agreement_id: this.agreement_id, state: "CLERK"}, "ALTER_STATE").then();
     this.router.navigate(['itemmanager', 'adverts']);
   };
 
-  //Redirects to ExplorerComponent with a given address as a parameter
-  explore_address = function (address) {
+  /**
+   * Redirects to ExplorerComponent with a given address as a parameter.
+   * @param address Address to explore.
+   */
+  exploreAddress = function (address) {
     this.router.navigate(['explorer', address]);
   };
 
+  /**
+   * Confirms clerk's decision.
+   */
   confirmClerk = function() {
     let request_payload = {agreement_id: this.agreement_id, account_id: this.global.globalvars.account_logged_in};
     this.api.serverRequest(request_payload, "CONFIRM_CLERK_DECISION").then(data => this.clerk_confirmed = true);

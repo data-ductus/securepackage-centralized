@@ -15,6 +15,7 @@ export class ItemComponent implements OnInit {
   item_terms;
   item_item_params;
   item_images;
+  item_default_terms;
 
   //Proposed terms parameters
   terms_identification;
@@ -53,44 +54,40 @@ export class ItemComponent implements OnInit {
     this.api.serverRequest(request_payload, "FETCH_AGREEMENT_INFO").then(response => this.item_agreement_params = response);
     this.api.serverRequest(request_payload, "FETCH_AGREEMENT_ITEM").then(response => this.item_item_params = response);
     this.api.serverRequest(request_payload, "FETCH_AGREEMENT_IMAGES").then(response => this.item_images = response);
-    this.api.serverRequest(request_payload, "FETCH_AGREEMENT_TERMS").then(response => {
-      this.item_terms = response;
-      this.assignDefaultTerms(response);
-    });
+    this.api.serverRequest(request_payload, "FETCH_AGREEMENT_TERMS").then(response => this.item_terms = response);
+    this.api.serverRequest(request_payload, "FETCH_CURRENT_AGREEMENT_TERMS").then(response => this.assignDefaultTerms(response));
   };
 
   //Assignes default terms that can be changed by the potential buyer
-  assignDefaultTerms = function(data) {
+  assignDefaultTerms = function(terms) {
+    //Set general information
     this.terms_identification = this.generator.generate160bitId();
+    this.item_default_terms = terms;
+    this.terms_item_price = terms.price;
+    this.terms_item_postage = terms.postage_time;
 
-    //Set default sensor parameters
-    for (let terms of data) {
-      if (terms.status === 'INITIAL') {
-        this.terms_item_price = terms.price;
-        this.terms_item_postage = terms.postage_time;
-        if (terms.accelerometer !== null) {
-          this.terms_accelerometer = true;
-          this.sensor_accelerometer = terms.accelerometer;
-        }
-        if (terms.pressure_low !== null) {
-          this.terms_pressure = true;
-          this.sensor_pressure_low = terms.pressure_low;
-          this.sensor_pressure_high = terms.pressure_high;
-        }
-        if (terms.humidity_low !== null) {
-          this.terms_humidity = true;
-          this.sensor_humidity_low = terms.humidity_low;
-          this.sensor_humidity_high = terms.humidity_high;
-        }
-        if (terms.temperature_low !== null) {
-          this.terms_temperature = true;
-          this.sensor_temperature_low = terms.temperature_low;
-          this.sensor_temperature_high = terms.temperature_high;
-        }
-        if (terms.gps == 1) {
-          this.terms_gps = true;
-        }
-      }
+    //Set default sensor configuration
+    if (terms.accelerometer !== null) {
+      this.terms_accelerometer = true;
+      this.sensor_accelerometer = terms.accelerometer;
+    }
+    if (terms.pressure_low !== null) {
+      this.terms_pressure = true;
+      this.sensor_pressure_low = terms.pressure_low;
+      this.sensor_pressure_high = terms.pressure_high;
+    }
+    if (terms.humidity_low !== null) {
+      this.terms_humidity = true;
+      this.sensor_humidity_low = terms.humidity_low;
+      this.sensor_humidity_high = terms.humidity_high;
+    }
+    if (terms.temperature_low !== null) {
+      this.terms_temperature = true;
+      this.sensor_temperature_low = terms.temperature_low;
+      this.sensor_temperature_high = terms.temperature_high;
+    }
+    if (terms.gps == 1) {
+      this.terms_gps = true;
     }
   };
 

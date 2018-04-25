@@ -20,7 +20,7 @@ export class AgreementComponent implements OnInit {
   logistics_params;
   agreement_events;
   clerk_decision;
-  clerk_confirmed = false;
+  clerk_confirmed;
 
   //Charts
   private tempChart: AmChart;
@@ -134,6 +134,8 @@ export class AgreementComponent implements OnInit {
           if((this.global.globalvars.account_logged_in == this.item_agreement_params["buyer_id"] && response["buyer_confirm"] == '1') ||
             (this.global.globalvars.account_logged_in == this.item_agreement_params["seller_id"] && response["seller_confirm"] == '1')) {
             this.clerk_confirmed = true;
+          } else {
+            this.clerk_confirmed = false;
           }
         });
       }
@@ -193,7 +195,6 @@ export class AgreementComponent implements OnInit {
               this.api.serverRequest({gps_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
                 this.current_location.lat = parseFloat(data[0].latitude);
                 this.current_location.lng = parseFloat(data[0].longitude);
-                console.log(this.current_location);
               });
             }
           }
@@ -233,6 +234,6 @@ export class AgreementComponent implements OnInit {
 
   confirmClerk = function() {
     let request_payload = {agreement_id: this.agreement_id, account_id: this.global.globalvars.account_logged_in};
-    this.api.serverRequest(request_payload, "CONFIRM_CLERK_DECISION").then(data => this.router.navigate(['agreement', this.agreement_id]));
+    this.api.serverRequest(request_payload, "CONFIRM_CLERK_DECISION").then(data => this.clerk_confirmed = true);
   }
 }

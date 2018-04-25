@@ -79,7 +79,7 @@
         </div>
 
         <!--Resolvement display (for resolved agreements)-->
-        <div class="row" *ngIf="agreement_details?.state == 'RESOLVED'">
+        <div class="row" *ngIf="agreement_resolvement != null">
           <div class="col-lg-12">
             <div class="alert alert-warning">
               <h4><strong>Resolvement</strong></h4>
@@ -359,9 +359,10 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
+
+
 
     <!--Conflict resolving modal-->
     <div id="conflictModal" class="modal fade" role="dialog">

@@ -96,7 +96,7 @@ export class ClerkComponent implements OnInit {
           this.api.serverRequest({account_id: this.agreement_details["buyer_id"]}, "FETCH_ACCOUNT").then(data => this.agreement_buyer_details = data);
           this.api.serverRequest({account_id: this.agreement_details["seller_id"]}, "FETCH_ACCOUNT").then(data => this.agreement_seller_details = data);
           this.api.serverRequest({id: this.address}, "FETCH_ADDRESS_EVENTS").then(data => this.agreement_events = data);
-          this.api.serverRequest({id: this.address, status: "ACCEPTED"}, "FETCH_AGREEMENT_TERMS").then(response => this.agreement_terms = response[0]);
+          this.api.serverRequest({id: this.address}, "FETCH_CURRENT_AGREEMENT_TERMS").then(response => this.agreement_terms = response);
           this.api.serverRequest({agreement_id: this.address, direction: 'TRANSFER'}, "FETCH_LOGISTICS_PARAMETERS").then(data => {
             this.logistics_delivery_parameters = data;
             this.api.serverRequest({kolli_id: this.logistics_delivery_parameters.kolli_id}, "FETCH_SIMULATION_SENSORS").then(data => {

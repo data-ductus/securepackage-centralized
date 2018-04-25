@@ -39,6 +39,9 @@ export class AgreementComponent implements OnInit {
   //Either return or delivery
   direction;
 
+  //Sensor information
+  sensor_selection = null;
+
   //Sensor inclusion
   accelerometer_sensor_id = null;
   pressure_sensor_id = null;
@@ -55,6 +58,7 @@ export class AgreementComponent implements OnInit {
   show_sensors = false;
   show_gps = false;
   show_events = false;
+
 
   constructor(private route: ActivatedRoute, private router: Router, private api: ApiService, private generator: GenerationService, private global: GlobalvarsService, private amCharts: AmChartsService) { }
 
@@ -149,65 +153,75 @@ export class AgreementComponent implements OnInit {
       this.api.serverRequest({agreement_id: this.agreement_id, direction: this.direction}, "FETCH_LOGISTICS_PARAMETERS").then(response => {
         this.logistics_params = response;
         this.api.serverRequest({kolli_id: this.logistics_params.kolli_id}, "FETCH_SIMULATION_SENSORS").then(data => {
-
-          //Fetch sensors and assign the data to charts
-          for (let sensor of data) {
-            if (sensor.sensor_type === 'ACC') {
-              this.accelerometer_sensor_id = sensor.sensor_id;
-              this.api.serverRequest({sensor_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
-                let time = 0;
-                for (let output of data) {
-                  let step = {'acc': output.output, 'time': time};
-                  console.log(step);
-                  this.amCharts.updateChart(this.accChart, () => {this.accChart.dataProvider.push(step);});
-                  time += this.time_step;
-                }
-              });
-            } else if (sensor.sensor_type === 'PRES') {
-              this.pressure_sensor_id = sensor.sensor_id;
-              this.api.serverRequest({sensor_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
-                let time = 0;
-                for (let output of data) {
-                  let step = {'press': output.output, 'time': time};
-                  console.log(step);
-                  this.amCharts.updateChart(this.pressChart, () => {this.pressChart.dataProvider.push(step);});
-                  time += this.time_step;
-                }
-              });
-            } else if (sensor.sensor_type === 'TEMP') {
-              this.temperature_sensor_id = sensor.sensor_id;
-              this.api.serverRequest({sensor_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
-                let time = 0;
-                for (let output of data) {
-                  let step = {'temp': output.output, 'time': time};
-                  console.log(step);
-                  this.amCharts.updateChart(this.tempChart, () => {this.tempChart.dataProvider.push(step);});
-                  time += this.time_step;
-                }
-              });
-            } else if (sensor.sensor_type === 'HUMID') {
-              this.humidity_sensor_id = sensor.sensor_id;
-              this.api.serverRequest({sensor_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
-                let time = 0;
-                for (let output of data) {
-                  let step = {'humidity': output.output, 'time': time};
-                  console.log(step);
-                  this.amCharts.updateChart(this.humidityChart, () => {this.humidityChart.dataProvider.push(step);});
-                  time += this.time_step;
-                }
-              });
-            } else if (sensor.sensor_type === 'GPS') {
-              this.gps_sensor_id = sensor.sensor_id;
-              this.api.serverRequest({gps_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
-                this.current_location.lat = parseFloat(data[0].latitude);
-                this.current_location.lng = parseFloat(data[0].longitude);
-              });
-            }
+          if (this.sensor_selection == null) {
+            this.sensor_selection = data;
+            this.setCharts(data);
           }
         });
       });
     });
   };
+
+  /**
+   * Sets sensor charts
+   *
+   * @param sensors Sensors, associated with the transfer
+   */
+  setCharts = function(sensors) {
+    //Fetch sensors and assign the data to charts
+    for (let sensor of sensors) {
+      if (sensor.sensor_type === 'ACC') {
+        this.accelerometer_sensor_id = sensor.sensor_id;
+        this.api.serverRequest({sensor_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
+          let time = 0;
+          for (let output of data) {
+            let step = {'acc': output.output, 'time': time};
+            console.log(step);
+            this.amCharts.updateChart(this.accChart, () => {this.accChart.dataProvider.push(step);});
+            time += this.time_step;
+          }
+        });
+      } else if (sensor.sensor_type === 'PRES') {
+        this.pressure_sensor_id = sensor.sensor_id;
+        this.api.serverRequest({sensor_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
+          let time = 0;
+          for (let output of data) {
+            let step = {'press': output.output, 'time': time};
+            console.log(step);
+            this.amCharts.updateChart(this.pressChart, () => {this.pressChart.dataProvider.push(step);});
+            time += this.time_step;
+          }
+        });
+      } else if (sensor.sensor_type === 'TEMP') {
+        this.temperature_sensor_id = sensor.sensor_id;
+        this.api.serverRequest({sensor_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
+          let time = 0;
+          for (let output of data) {
+            let step = {'temp': output.output, 'time': time};
+            this.amCharts.updateChart(this.tempChart, () => {this.tempChart.dataProvider.push(step);});
+            time += this.time_step;
+          }
+        });
+      } else if (sensor.sensor_type === 'HUMID') {
+        this.humidity_sensor_id = sensor.sensor_id;
+        this.api.serverRequest({sensor_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
+          let time = 0;
+          for (let output of data) {
+            let step = {'humidity': output.output, 'time': time};
+            console.log(step);
+            this.amCharts.updateChart(this.humidityChart, () => {this.humidityChart.dataProvider.push(step);});
+            time += this.time_step;
+          }
+        });
+      } else if (sensor.sensor_type === 'GPS') {
+        this.gps_sensor_id = sensor.sensor_id;
+        this.api.serverRequest({gps_id: sensor.sensor_id}, "FETCH_SENSOR_DATA").then(data => {
+          this.current_location.lat = parseFloat(data[0].latitude);
+          this.current_location.lng = parseFloat(data[0].longitude);
+        });
+      }
+    }
+  }
 
   /**
    * Accepts the delivery.

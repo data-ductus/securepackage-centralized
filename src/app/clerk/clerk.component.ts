@@ -265,7 +265,7 @@ export class ClerkComponent implements OnInit {
   initReturnCharts = function() {
     this.returnTempChart = this.amCharts.makeChart( 'returnTempChartDiv', {
       'type': 'serial',
-      'dataProvider': this.deliveryTempData,
+      'dataProvider': this.returnTempData,
       'categoryField': 'time',
       'graphs': [ {
         'valueField': 'temp',

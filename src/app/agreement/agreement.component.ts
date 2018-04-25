@@ -206,7 +206,7 @@ export class AgreementComponent implements OnInit {
   //Accepts the delivery
   acceptItem = function () {
     this.api.serverRequest({agreement_id: this.agreement_id, state: "COMPLETED"}, "ALTER_STATE").then();
-    this.router.navigate(['itemmanager', 'bought']);
+    this.router.navigate(['itemmanager', 'history']);
   };
 
   //Rejects the delivery
@@ -218,13 +218,13 @@ export class AgreementComponent implements OnInit {
   //Accepts the return
   acceptReturn = function () {
     this.api.serverRequest({agreement_id: this.agreement_id, state: "INACTIVE"}, "ALTER_STATE").then();
-    this.router.navigate(['itemmanager', 'bought']);
+    this.router.navigate(['itemmanager', 'history']);
   };
 
   //Rejects the return
   rejectReturn = function () {
     this.api.serverRequest({agreement_id: this.agreement_id, state: "CLERK"}, "ALTER_STATE").then();
-    this.router.navigate(['itemmanager', 'bought']);
+    this.router.navigate(['itemmanager', 'adverts']);
   };
 
   //Redirects to ExplorerComponent with a given address as a parameter

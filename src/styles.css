@@ -35,6 +35,10 @@ agm-map {
   height: 300px;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 /*============================LoginComponent============================*/
 
 .generate-menu-label {

@@ -11,4 +11,13 @@ Download the project and run `npm install`, assuming node.js is installed.
 
 ## Deployment
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:1337/`. The app will automatically reload if you change any of the source files.
+* Run `ng serve` for a dev server. 
+* Navigate to `http://localhost:1337/`. The app will automatically reload if you change any of the source files.
+
+## Connection to the backend
+
+* Follow steps provided in the [API](https://github.com/data-ductus/securepackage-api) repo.
+
+## Simulation of logistics process
+
+* Follow steps provided in the [Simulator](https://github.com/data-ductus/securepackage-simulation) repo.

@@ -46,7 +46,9 @@ export class NewItemComponent implements OnInit {
     this.terms_id = this.generator.generate160bitId();
   }
 
-  //Adds new item, sends parameters to database via API
+  /**
+   * Adds new item, sends parameters to database via API.
+   */
   addNewItem = function() {
     let request_payload = {
       id: this.item_id,

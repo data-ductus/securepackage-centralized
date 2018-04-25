@@ -4,6 +4,7 @@ import {GlobalvarsService} from '../services/globalvars.service';
 import {ApiService} from '../services/api.service';
 import {AmChart, AmChartsService} from '@amcharts/amcharts3-angular';
 
+/* ClerkComponent: handles clerk actions and authorization */
 @Component({selector: 'app-clerk', templateUrl: './clerk.component.html'})
 
 export class ClerkComponent implements OnInit {
@@ -101,7 +102,7 @@ export class ClerkComponent implements OnInit {
             this.logistics_delivery_parameters = data;
             this.api.serverRequest({kolli_id: this.logistics_delivery_parameters.kolli_id}, "FETCH_SIMULATION_SENSORS").then(data => {
 
-              //Fetch sensors and assign the data to charts
+              //Fetch sensors and assign the data to delivery charts
               for (let sensor of data) {
                 if (sensor.sensor_type === 'ACC') {
                   this.delivery_accelerometer_sensor_id = sensor.sensor_id;
@@ -154,7 +155,7 @@ export class ClerkComponent implements OnInit {
 
             this.api.serverRequest({kolli_id: this.logistics_return_parameters.kolli_id}, "FETCH_SIMULATION_SENSORS").then(data => {
 
-              //Fetch sensors and assign the data to charts
+              //Fetch sensors and assign the data to return charts
               for (let sensor of data) {
                 if (sensor.sensor_type === 'ACC') {
                   this.return_accelerometer_sensor_id = sensor.sensor_id;
@@ -208,21 +209,9 @@ export class ClerkComponent implements OnInit {
     });
   }
 
-  clerkLogin = function() {
-    let request_payload = {address: this.clerk_id, password: this.clerk_password};
-    this.api.serverRequest(request_payload, "CLERK_LOGIN").then(userdata => {
-      if (userdata != null) { this.global.globalvars.clerk_logged_in = this.clerk_id }
-    });
-  };
-
-  exploreAddress = function(address) {
-    this.router.navigate(['explorer', address]);
-  };
-
-  manageConflict = function(address) {
-    this.router.navigate(['clerk', address]);
-  };
-
+  /**
+   * Initializes delivery charts, sets data sources.
+   */
   initDeliveryCharts = function() {
     this.deliveryTempChart = this.amCharts.makeChart( 'deliveryTempChartDiv', {
       'type': 'serial',
@@ -262,6 +251,9 @@ export class ClerkComponent implements OnInit {
     } );
   };
 
+  /**
+   * Initializes return charts, sets data sources.
+   */
   initReturnCharts = function() {
     this.returnTempChart = this.amCharts.makeChart( 'returnTempChartDiv', {
       'type': 'serial',
@@ -301,8 +293,38 @@ export class ClerkComponent implements OnInit {
     } );
   };
 
+  /**
+   * Resolves a conflict.
+   */
   resolveConflict = function() {
     let request_payload = {id: this.address, liable_party: this.liable_party, message: this.resolve_message, clerk_id: this.global.globalvars.clerk_logged_in};
     this.api.serverRequest(request_payload, "RESOLVE_CONFLICT").then(data => this.router.navigate(["clerk"]));
   }
+  /**
+   * Performs clerk login action.
+   */
+  clerkLogin = function() {
+    let request_payload = {address: this.clerk_id, password: this.clerk_password};
+    this.api.serverRequest(request_payload, "CLERK_LOGIN").then(userdata => {
+      if (userdata != null) { this.global.globalvars.clerk_logged_in = this.clerk_id }
+    });
+  };
+
+  /**
+   * Redirects to ExplorerComponent with a given address as a parameter.
+   *
+   * @param address Address to explore.
+   */
+  exploreAddress = function(address) {
+    this.router.navigate(['explorer', address]);
+  };
+
+  /**
+   * Redirects to conflict resolving screen.
+   *
+   * @param address Agreement's address.
+   */
+  manageConflict = function(address) {
+    this.router.navigate(['clerk', address]);
+  };
 }

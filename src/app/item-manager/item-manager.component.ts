@@ -42,44 +42,64 @@ export class ItemManagerComponent implements OnInit {
     this.fetchUserHistory();
   }
 
-
-  //Fetches user's items
+  /**
+   * Fetches user's items.
+   */
   fetchUserItems = function() {
     let request_payload = {user_search: this.global.globalvars.account_logged_in};
     this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.item_display = response})
   };
 
-  //Fetches user's proposals
+  /**
+   * Fetches user's proposals.
+   */
   fetchUserProposals = function() {
     let request_payload = {user_search: this.global.globalvars.account_logged_in};
     this.api.serverRequest(request_payload, "FETCH_USER_PROPOSALS").then(response => {this.proposal_display = response})
   };
 
-  //Fetches user's purchases
+  /**
+   * Fetches user's purchases.
+   */
   fetchUserPurchases = function() {
     let request_payload = {buyer_search: this.global.globalvars.account_logged_in};
     this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.purchase_display = response})
   };
 
+  /**
+   * Fetches user's agreement history.
+   */
   fetchUserHistory = function() {
     let request_payload = {account_id: this.global.globalvars.account_logged_in};
     this.api.serverRequest(request_payload, "FETCH_ACCOUNT_HISTORY").then(response => {this.history_display = response})
   };
 
-  //Fetches terms of a given item/agreement
+  /**
+   * Fetches terms of a given item/agreement.
+   *
+   * @param item_id Item/Agreement address.
+   */
   fetchItemTerms = function(item_id) {
     this.proposal_state_chosen = "PROPOSED";
     let request_payload = {id: item_id};
     this.api.serverRequest(request_payload, "FETCH_AGREEMENT_TERMS").then(response => this.item_terms = response);
   };
 
-  //Removes a proposal
+  /**
+   * Removes a proposal.
+   *
+   * @param terms_id Address of the proposal.
+   */
   removeProposal = function(terms_id) {
     let request_payload = {terms: terms_id};
     this.api.serverRequest(request_payload, "REMOVE_PROPOSAL").then(response => this.fetchUserProposals());
   };
 
-  //Rejects a proposal
+  /**
+   * Rejects a proposal.
+   *
+   * @param terms_id Address of the proposal.
+   */
   rejectProposal = function(terms_id) {
     let request_payload = {terms: terms_id};
     this.api.serverRequest(request_payload, "REJECT_PROPOSAL").then(response => {
@@ -88,23 +108,40 @@ export class ItemManagerComponent implements OnInit {
     });
   };
 
-  //Accepts a proposal
+  /**
+   * Accepts a proposal.
+   *
+   * @param terms_id Address of the proposal.
+   * @param agreement_id Address of the agreement.
+   * @param buyer_id Buyer account.
+   */
   acceptProposal = function (terms_id, agreement_id, buyer_id) {
     let request_payload = {terms: terms_id, agreement: agreement_id, time: this.generator.generateCurrentTime(), buyer: buyer_id};
     this.api.serverRequest(request_payload, "ACCEPT_PROPOSAL").then(response => this.fetchUserItems());
   };
 
-  //Removes/inactivates an item/agreement
+  /**
+   * Removes/inactivates an item/agreement
+   */
   removeItem = function () {
     let request_payload = {agreement: this.item_to_delete};
     this.api.serverRequest(request_payload, "REMOVE_ITEM").then(response => this.fetchUserItems());
   };
 
-  //Navigates to AgreementComponent for detailed viewing of an accepted agreement
+  /**
+   * Navigates to AgreementComponent for detailed viewing of an accepted agreement.
+   *
+   * @param agreement_id Address of the agreement.
+   */
   moveToAgreement = function (agreement_id) {
     this.router.navigate(['agreement', agreement_id]);
   };
 
+  /**
+   * Redirects to ExplorerComponent with a given address as a parameter.
+   *
+   * @param address Address to explore.
+   */
   exploreAddress = function(address) {
     this.router.navigate(['explorer', address]);
   };

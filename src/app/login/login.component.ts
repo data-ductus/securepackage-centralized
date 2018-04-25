@@ -44,7 +44,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  //Generates random values from a random seed
+  /**
+   * Generates random values from a random seed.
+   */
   generateKeys = function() {
     this.generate_seed = 'Generating...';
     this.http.get(this.seedApi).subscribe(data => {
@@ -66,7 +68,9 @@ export class LoginComponent implements OnInit {
     });
   };
 
-  //Generates account, send generated data to API
+  /**
+   * Generates account, sends generated data to API.
+   */
   generateAccount = function() {
     if(validatePassword(this.generate_password)) {
       let request_payload = {address: this.generate_address, public_key: this.generate_publicKey, password: this.generate_password, name: this.generate_name};
@@ -74,7 +78,9 @@ export class LoginComponent implements OnInit {
     }
   };
 
-  //Performs a login by checking the database via API
+  /**
+   * Performs a login by checking the database via API.
+   */
   login = function() {
     let request_payload = {address: this.login_address, password: this.login_password};
     this.api.serverLoginRequest(request_payload).then(userdata => {
@@ -91,7 +97,12 @@ export class LoginComponent implements OnInit {
 }
 
 
-//Checks password security grade
+/**
+ * Checks password security grade.
+ *
+ * @param password Password.
+ * @returns {boolean} Password validity.
+ */
 function validatePassword(password) {
   let errors = [];
   if (password.length < 8) {

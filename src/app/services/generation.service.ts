@@ -6,7 +6,11 @@ export class GenerationService {
 
   constructor() { }
 
-  //Generates a 160-bit identification number
+  /**
+   * Generates a 160-bit identification number.
+   *
+   * @returns {string} 160-bit identifier.
+   */
   generate160bitId = function() {
     let id = "";
     let possible = "0123456789abcdef";
@@ -17,7 +21,11 @@ export class GenerationService {
     return id;
   };
 
-  //Generates current time in MySQL format
+  /**
+   * Generates current time in MySQL format.
+   *
+   * @returns {string} Current time in MySQL format.
+   */
   generateCurrentTime = function() {
     //Fetch current time
     let now     = new Date();
@@ -49,7 +57,12 @@ export class GenerationService {
     return "'" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second + "'";
   };
 
-  //Converts byte array to hexadecimal string
+  /**
+   * Converts byte array to hexadecimal string.
+   *
+   * @param byteArray Byte array to parse
+   * @returns {string} Hex string.
+   */
   byteArrayToHexString = function(byteArray) {
     let s = '';
     byteArray.forEach(function(byte) {
@@ -58,7 +71,12 @@ export class GenerationService {
     return s;
   };
 
-  //Converts hexadecimal string to byte array
+  /**
+   * Converts hexadecimal string to byte array
+   *
+   * @param str Hex string to parse.
+   * @returns {Uint8Array} Byte array.
+   */
   stringToByteArray = function(str) {
     let arraybuf = new ArrayBuffer(str.length*2);
     let bufView = new Uint8Array(arraybuf);
@@ -68,7 +86,12 @@ export class GenerationService {
     return bufView;
   };
 
-  //Gets 160-bit address from 256-bit long public key
+  /**
+   * Gets 160-bit address from 256-bit long public key.
+   *
+   * @param string Public key.
+   * @returns {string} 160-bit address.
+   */
   getAddress = function (string){
     let address = '';
     for (let i = 0; i < string.length; i++) {

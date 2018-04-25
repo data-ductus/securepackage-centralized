@@ -8,7 +8,7 @@
         <div class="col-lg-12">
           <div class="form-group input-group">
             <input type="text" class="form-control" placeholder="Enter address here..." [(ngModel)]="address_search">
-            <span class="input-group-btn"><button class="btn btn-default" type="button" (click)="explore_address(address_search)"><span class="glyphicon glyphicon-search"></span></button></span>
+            <span class="input-group-btn"><button class="btn btn-default" type="button" (click)="exploreAddress(address_search)"><span class="glyphicon glyphicon-search"></span></button></span>
           </div>
         </div>
       </div>
@@ -29,9 +29,9 @@
             </thead>
             <tbody>
               <tr *ngFor="let event of recent_events">
-                <td scope="row"><a (click)="explore_address(event.event_id)">{{event.event_id}}</a></td>
+                <td scope="row"><a (click)="exploreAddress(event.event_id)">{{event.event_id}}</a></td>
                 <td scope="row"><span class="glyphicon glyphicon-arrow-right"></span></td>
-                <td scope="row"> <a (click)="explore_address(event.target_agreement)">{{event.target_agreement}}</a></td>
+                <td scope="row"> <a (click)="exploreAddress(event.target_agreement)">{{event.target_agreement}}</a></td>
                 <td scope="row">{{event.event_type}}</td>
                 <td scope="row">{{event.timestamp}}</td>
               </tr>
@@ -54,7 +54,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let agreement of recent_agreements">
-                <td scope="row"><a (click)="explore_address(agreement.agreement_id)">{{agreement.agreement_id}}</a></td>
+                <td scope="row"><a (click)="exploreAddress(agreement.agreement_id)">{{agreement.agreement_id}}</a></td>
                 <td scope="row">{{agreement.state}}</td>
                 <td scope="row">{{agreement.date_created}}</td>
               </tr>
@@ -70,7 +70,7 @@
           <!--If address exists-->
           <div *ngIf="address_type != null">
             <h4><strong><span class="glyphicon glyphicon-list-alt"></span> 0x{{address}} </strong> <em *ngIf="address_type == 'EVENT'"><span class="glyphicon glyphicon-arrow-right"></span>
-            <a (click)="explore_address(address_payload.payload.agreement_id)">0x{{address_payload.payload.agreement_id}}</a></em></h4>
+            <a (click)="exploreAddress(address_payload.payload.agreement_id)">0x{{address_payload.payload.agreement_id}}</a></em></h4>
             <pre>"address_type": {{address_type | json}}</pre>
             <pre>{{address_payload | json}}</pre>
 
@@ -87,7 +87,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let event of address_events">
-                    <td scope="row"><a (click)="explore_address(event.event_id)">{{event.event_id}}</a></td>
+                    <td scope="row"><a (click)="exploreAddress(event.event_id)">{{event.event_id}}</a></td>
                     <td scope="row">{{event.event_type}}</td>
                     <td scope="row">{{event.timestamp}}</td>
                   </tr>

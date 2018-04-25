@@ -243,6 +243,7 @@ export class AgreementComponent implements OnInit {
 
   /**
    * Redirects to ExplorerComponent with a given address as a parameter.
+   *
    * @param address Address to explore.
    */
   exploreAddress = function (address) {

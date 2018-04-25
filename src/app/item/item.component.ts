@@ -48,7 +48,9 @@ export class ItemComponent implements OnInit {
     });
   }
 
-  //Fetches agreement details and sets according variables
+  /**
+   * Fetches agreement details and sets according variables.
+   */
   fetchAgreementDetails = function () {
     let request_payload = {id: this.agreement_id};
     this.api.serverRequest(request_payload, "FETCH_AGREEMENT_INFO").then(response => this.item_agreement_params = response);
@@ -58,7 +60,11 @@ export class ItemComponent implements OnInit {
     this.api.serverRequest(request_payload, "FETCH_CURRENT_AGREEMENT_TERMS").then(response => this.assignDefaultTerms(response));
   };
 
-  //Assignes default terms that can be changed by the potential buyer
+  /**
+   * Assignes default terms that can be changed by the potential buyer.
+   *
+   * @param terms Default terms.
+   */
   assignDefaultTerms = function(terms) {
     //Set general information
     this.terms_identification = this.generator.generate160bitId();
@@ -91,7 +97,9 @@ export class ItemComponent implements OnInit {
     }
   };
 
-  //Sends proposed terms to the API
+  /**
+   * Sends proposed terms to the API.
+   */
   proposeTerms = function () {
     let request_payload = {
       terms_id: this.terms_identification,

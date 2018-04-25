@@ -15,16 +15,21 @@ export class ItemBrowserComponent implements OnInit {
     this.global.changeMenu("items");
     this.global.globalvars.clerk_logged_in = null;
     this.fetchAllAgreements();
-    this.api.serverRequest({agreement_id: "dec1cb540229da9827e0560b7d3d886b01e2824c"}, "FETCH_LOGISTICS_INFO")
   }
 
-  //Fetches all items, that are up for sale
+  /**
+   * Fetches all items/advertisements, that are up for sale.
+   */
   fetchAllAgreements = function () {
     let request_payload = {status: 'CREATED'};
     this.api.serverRequest(request_payload, "FETCH_AGREEMENTS").then(response => {this.item_display = response})
   };
 
-  //Navigates to ItemComponent to view the clicked item in detail
+  /**
+   * Navigates to ItemComponent to view the clicked item in detail.
+   *
+   * @param agreement_id Agreement address.
+   */
   agreementClick = function (agreement_id) {
     this.router.navigate(['item', agreement_id]);
   };

@@ -12,7 +12,12 @@ export class ApiService {
 
   constructor(private http: HttpClient, private generator: GenerationService) { }
 
-  //Performs a login request
+  /**
+   * Performs a login request.
+   *
+   * @param account_data Account information.
+   * @returns {Promise<any>} HTTP server response.
+   */
   serverLoginRequest = function(account_data) {
     //Append login action to request payload
     account_data.action = "LOGIN";
@@ -30,7 +35,13 @@ export class ApiService {
     return promise;
   };
 
-  //Performs a server call, able to send and retrieve JSON arrays
+  /**
+   * Performs a server call, sends and retrieves JSON arrays.
+   *
+   * @param payload HTTP request payload.
+   * @param action HTTP server action.
+   * @returns {Promise<any>} HTTP server response.
+   */
   serverRequest = function (payload, action) {
     //Append action and timestamp to request payload
     payload.action = action;

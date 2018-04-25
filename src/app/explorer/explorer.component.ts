@@ -50,8 +50,12 @@ export class ExplorerComponent implements OnInit {
     });
   }
 
-  //Redirects to ExplorerComponent with a given address as a parameter
-  explore_address = function (address) {
+  /**
+   * Redirects to ExplorerComponent with a given address as a parameter.
+   *
+   * @param address Address to explore.
+   */
+  exploreAddress = function (address) {
     this.router.navigate(['explorer', address]);
   }
 }

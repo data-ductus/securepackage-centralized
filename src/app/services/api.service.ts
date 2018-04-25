@@ -23,7 +23,7 @@ export class ApiService {
     account_data.action = "LOGIN";
     let promise = new Promise((resolve) => {
       this.http.post(this.server_target, account_data).subscribe(data => {
-        console.log(data);
+        //console.log(data);
         if(data['status'] == "LOGIN_SUCCESS") {
           resolve(data);
         }
@@ -50,7 +50,7 @@ export class ApiService {
     //Perform HTTP call to the API
     let promise = new Promise((resolve) => {
       this.http.post(this.server_target, payload).subscribe(data => {
-        console.log(data);
+        //console.log(data);
         resolve(data);})
     });
     return promise;

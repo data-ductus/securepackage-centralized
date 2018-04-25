@@ -5,42 +5,48 @@
 
       <!--User's items browser-->
       <div class="row" *ngIf="manager_type == 'adverts'">
-        <!--Item display-->
-        <div class="alert alert-warning" *ngIf="item_display.length == 0">
-          <p><span class="glyphicon glyphicon-exclamation-sign"></span> You have no active advertisements.</p>
-        </div>
-        <div *ngFor="let item of item_display">
-          <div class="alert alert-info">
-            <div class="row">
-              <div class="col-lg-4">
-                <img src={{item.image}} alt="800x600" border="0" class="item_image">
-              </div>
-              <div class="col-lg-8" >
-                <div class="row">
-                  <p><strong>{{item.title}}</strong></p>
-                </div>
-                <div class="row">
-                  <p><span class="glyphicon glyphicon-link"></span> {{item.agreement_id}}</p>
-                </div>
-                <div class="row">
-                  <p><span class="glyphicon glyphicon-credit-card"></span> {{item.price}} SEK</p>
-                </div>
-                <div class="row">
-                  <p><span class="glyphicon glyphicon-cog"></span> {{item.state}}</p>
-                </div>
-              </div>
-            </div>
+        <div class="col-lg-12">
 
-            <!--Action buttons-->
-            <div class="row" align="center" style="margin-top: 15px">
-              <div class="col-lg-4">
-                <button class="btn btn-primary manage_button" [disabled]="item.state != 'CREATED'" (click)="fetchItemTerms(item.agreement_id)" data-toggle="modal" data-target="#termsModal"><span class="glyphicon glyphicon-list-alt"></span> Manage proposals</button>
+          <!--Item display-->
+          <div align="center">
+            <h3><strong><span class="glyphicon glyphicon-export"></span> My adverts</strong></h3>
+          </div>
+          <div class="alert alert-warning" *ngIf="item_display.length == 0">
+            <p><span class="glyphicon glyphicon-exclamation-sign"></span> You have no active advertisements.</p>
+          </div>
+          <div *ngFor="let item of item_display">
+            <div class="alert alert-info">
+              <div class="row">
+                <div class="col-lg-4">
+                  <img src={{item.image}} alt="800x600" border="0" class="item_image">
+                </div>
+                <div class="col-lg-8" >
+                  <div class="row">
+                    <p><strong>{{item.title}}</strong></p>
+                  </div>
+                  <div class="row">
+                    <p><span class="glyphicon glyphicon-link"></span> {{item.agreement_id}}</p>
+                  </div>
+                  <div class="row">
+                    <p><span class="glyphicon glyphicon-credit-card"></span> {{item.price}} SEK</p>
+                  </div>
+                  <div class="row">
+                    <p><span class="glyphicon glyphicon-cog"></span> {{item.state}}</p>
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-4">
-                <button class="btn btn-primary manage_button" [disabled]="item.state != 'CREATED'" (click)="item_to_delete = item.agreement_id"  data-toggle="modal" data-target="#itemDeleteModal"><span class="glyphicon glyphicon-remove"></span> Delete item</button>
-              </div>
-              <div class="col-lg-4">
-                <button class="btn btn-primary manage_button" [disabled]="item.state == 'CREATED'" (click)="moveToAgreement(item.agreement_id)"><span class="glyphicon glyphicon-search"></span> Agreement details</button>
+
+              <!--Action buttons-->
+              <div class="row" align="center" style="margin-top: 15px">
+                <div class="col-lg-4">
+                  <button class="btn btn-primary manage_button" [disabled]="item.state != 'CREATED'" (click)="fetchItemTerms(item.agreement_id)" data-toggle="modal" data-target="#termsModal"><span class="glyphicon glyphicon-list-alt"></span> Manage proposals</button>
+                </div>
+                <div class="col-lg-4">
+                  <button class="btn btn-primary manage_button" [disabled]="item.state != 'CREATED'" (click)="item_to_delete = item.agreement_id"  data-toggle="modal" data-target="#itemDeleteModal"><span class="glyphicon glyphicon-remove"></span> Delete item</button>
+                </div>
+                <div class="col-lg-4">
+                  <button class="btn btn-primary manage_button" [disabled]="item.state == 'CREATED'" (click)="moveToAgreement(item.agreement_id)"><span class="glyphicon glyphicon-search"></span> Agreement details</button>
+                </div>
               </div>
             </div>
           </div>
@@ -52,6 +58,10 @@
         <div class="col-lg-12">
 
           <!--Item display-->
+          <div align="center">
+            <h3><strong><span class="glyphicon glyphicon-import"></span> Active purchases</strong></h3>
+          </div>
+
           <div class="alert alert-warning" *ngIf="purchase_display.length == 0">
             <p><span class="glyphicon glyphicon-exclamation-sign"></span> You have no active purchases.</p>
           </div>
@@ -84,6 +94,9 @@
       <div class="row" *ngIf="manager_type == 'proposed'">
         <div class="col-lg-12">
 
+          <div align="center">
+            <h3><strong><span class="glyphicon glyphicon-file"></span> Proposals</strong></h3>
+          </div>
           <div class="alert alert-warning" *ngIf="proposal_display.length == 0">
             <p><span class="glyphicon glyphicon-exclamation-sign"></span> You have no active proposals.</p>
           </div>
@@ -94,13 +107,14 @@
             <select class="form-control" [(ngModel)]="proposal_state_chosen">
               <option selected="selected">PROPOSED</option>
               <option>DENIED</option>
+              <option>INACTIVE</option>
             </select>
           </div>
 
           <!--Proposal display-->
           <div *ngFor="let terms of proposal_display">
             <div *ngIf="terms.status == proposal_state_chosen">
-              <div class="alert" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': terms.status == 'DENIED'}">
+              <div class="alert" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': (terms.status == 'DENIED' || terms.status == 'INACTIVE')}">
                 <div class="form-group">
                   <h4><span class="glyphicon glyphicon-tags"></span> <strong> {{terms.title}}</strong></h4><hr>
                   <p><span class="glyphicon glyphicon-file"></span> <strong>Proposal number: </strong> {{terms.terms_id}}</p>
@@ -139,12 +153,15 @@
   </div>
 </div>
 
-<!--User's accepted items (purchases)-->
+<!--User's item history-->
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <div class="row" *ngIf="manager_type == 'history'">
         <div class="col-lg-12">
+          <div align="center">
+            <h3><strong><span class="glyphicon glyphicon-export"></span> Agreement history</strong></h3>
+          </div>
           <div class="alert alert-warning" *ngIf="history_display.length == 0">
             <p><span class="glyphicon glyphicon-exclamation-sign"></span> You have no previously active agreements.</p>
           </div>
@@ -194,12 +211,13 @@
           <select class="form-control" id="proposal_states" [(ngModel)]="proposal_state_chosen">
             <option selected="selected">PROPOSED</option>
             <option>DENIED</option>
+            <option>INACTIVE</option>
           </select>
         </div>
 
         <!--Proposal display-->
         <div *ngFor="let terms of item_terms">
-          <div class="alert" [hidden]="terms.status != proposal_state_chosen" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': terms.status == 'DENIED'}">
+          <div class="alert" [hidden]="terms.status != proposal_state_chosen" [ngClass]="{'alert-info': terms.status == 'PROPOSED', 'alert-danger': (terms.status == 'DENIED' || terms.status == 'INACTIVE')}">
             <h4><span class="glyphicon glyphicon-file"></span> <strong>Proposal #{{terms.terms_id}}</strong></h4>
             <p><span class="glyphicon glyphicon-cog"></span> <strong>Status: {{terms.status}}</strong></p>
             <p><span class="glyphicon glyphicon-user"></span> <strong>Proposed by: </strong>{{terms.author_account}}</p>

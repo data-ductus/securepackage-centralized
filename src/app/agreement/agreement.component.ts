@@ -176,7 +176,6 @@ export class AgreementComponent implements OnInit {
           let time = 0;
           for (let output of data) {
             let step = {'acc': output.output, 'time': time};
-            console.log(step);
             this.amCharts.updateChart(this.accChart, () => {this.accChart.dataProvider.push(step);});
             time += this.time_step;
           }
@@ -187,7 +186,6 @@ export class AgreementComponent implements OnInit {
           let time = 0;
           for (let output of data) {
             let step = {'press': output.output, 'time': time};
-            console.log(step);
             this.amCharts.updateChart(this.pressChart, () => {this.pressChart.dataProvider.push(step);});
             time += this.time_step;
           }
@@ -208,7 +206,6 @@ export class AgreementComponent implements OnInit {
           let time = 0;
           for (let output of data) {
             let step = {'humidity': output.output, 'time': time};
-            console.log(step);
             this.amCharts.updateChart(this.humidityChart, () => {this.humidityChart.dataProvider.push(step);});
             time += this.time_step;
           }

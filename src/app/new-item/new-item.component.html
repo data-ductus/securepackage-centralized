@@ -6,32 +6,33 @@
       <!--First addition step (general information)-->
       <div class="row" *ngIf="item_defined === false">
         <div class="col-lg-12">
-          <div class="alert alert-info">
+          <div class="alert alert-info item-header">
 
             <!--Header-->
-            <h3><span class="glyphicon glyphicon-plus"></span> New item</h3><hr>
-
+            <h4><span class="glyphicon glyphicon-edit"></span> <strong>Item description</strong></h4>
+          </div>
+          <div class="alert">
             <!--Identification number-->
             <div class="form-group">
-              <p>Identification number</p>
+              <label for="item_id">Identification number</label>
               <input type="text" class="form-control" id="item_id" disabled [(ngModel)]="item_id">
             </div>
 
             <!--Title-->
             <div class="form-group">
-              <p>Title</p>
+              <label for="item_title">Title</label>
               <input type="text" class="form-control" id="item_title" [(ngModel)]="item_title">
             </div>
 
             <!--Description-->
             <div class="form-group">
-              <p>Description</p>
+              <label for="item_description">Description</label>
               <textarea class="form-control" id="item_description" [(ngModel)]="item_description"></textarea>
             </div>
 
             <!--Image-->
             <div class="form-group">
-              <p>Image URL</p>
+              <label for="item_image">Image URL</label>
               <input type="text" class="form-control" id="item_image" [(ngModel)]="item_image">
             </div>
 
@@ -51,20 +52,21 @@
       <!--Second addition step (initial terms definition)-->
       <div class="row" *ngIf="item_defined === true">
         <div class="col-lg-12">
-          <div class="alert alert-info">
+          <div class="alert alert-info item-header">
 
             <!--Header-->
-            <h3><span class="glyphicon glyphicon-cog"></span> Propose terms</h3><hr>
-
+            <h4><span class="glyphicon glyphicon-file"></span> <strong>Propose terms</strong></h4>
+          </div>
+          <div class="alert item-header">
             <!--Terms ID-->
             <div class="form-group">
-              <p>Terms identification number</p>
+              <label for="terms_id">Terms identification number</label>
               <input type="text" class="form-control" id="terms_id" disabled [(ngModel)]="terms_id">
             </div>
 
             <!--Price with currency selection-->
             <div class="form-group">
-              <p>Price</p>
+              <label for="terms_price">Price</label>
               <div class="form-group input-group">
                 <input type="text" class="form-control" id="terms_price" [(ngModel)]="terms_price">
                 <span class="input-group-btn">
@@ -79,16 +81,16 @@
 
             <!--Shipment deadline-->
             <div class="form-group">
-              <p>Shipment deadline (hours)</p>
+              <label for="terms_shipmentdeadline">Shipment deadline (hours)</label>
               <div class="form-group input-group">
                 <input type="text" class="form-control" id="terms_shipmentdeadline" [(ngModel)]="terms_shipmentdeadline">
                 <span class="input-group-btn"><button class="btn btn-default generate-menu-label" type="button" disabled>hours</button></span>
               </div>
             </div>
+          </div>
 
-            <!--Sensore selection-->
-            <hr>
-
+          <!--Sensor selection-->
+          <div class="alert item-header">
             <!--Accelerometer-->
             <div class="form-group">
               <button class="btn btn-primary sensor-select" (click)="terms_accelerometer=true" *ngIf="!terms_accelerometer">Include accelerometer</button>
@@ -165,11 +167,12 @@
               <button class="btn btn-primary sensor-select" (click)="terms_gps = true" *ngIf="!terms_gps">Include GPS sensor</button>
               <button class="btn btn-danger sensor-select" (click)="terms_gps = false" *ngIf="terms_gps">Exclude GPS sensor</button>
             </div>
+          </div>
 
-            <!--Step buttons-->
+          <!--Step buttons-->
+          <div class="alert">
             <button class="btn btn-danger" (click)="item_defined = false"><span class="glyphicon glyphicon-arrow-left"></span> Previous</button>
             <button class="btn btn-success pull-right" (click)="addNewItem()"><span class="glyphicon glyphicon-plus"></span> Add new item</button>
-
           </div>
         </div>
       </div>

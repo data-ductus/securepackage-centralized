@@ -12,22 +12,14 @@
   <!--Clerk message display-->
   <div *ngIf="item_agreement_params?.state == 'RESOLVED'" class="row">
     <div class="col-lg-12">
-      <div class="alert alert-warning">
-        <div class="row">
-          <div class="col-lg-12">
-            <h4><strong><span class="glyphicon glyphicon-education"></span> Clerk decision</strong></h4>
-            <div class="alert" style="background-color: white">
-              <p><strong><span class="glyphicon glyphicon-education"></span> Resolved by:</strong> {{clerk_decision?.clerk_id}}</p>
-              <p><strong><span class="glyphicon glyphicon-user"></span> Liable party:</strong> {{clerk_decision?.liable_party}}</p>
-              <p><strong><span class="glyphicon glyphicon-comment"></span> Message:</strong> {{clerk_decision?.message}}</p>
-            </div>
-          </div>
-        </div>
-        <div class="row" align="center" *ngIf="clerk_confirmed == false">
-          <div class="col-lg-12">
-            <button class="btn btn-success" (click)="confirmClerk()"><span class="glyphicon glyphicon-ok"></span> Confirm decision</button>
-          </div>
-        </div>
+      <div class="alert alert-warning item-header">
+        <p><strong><span class="glyphicon glyphicon-education"></span> Clerk decision</strong>
+        <button class="btn btn-success btn-sm top-right" *ngIf="clerk_confirmed == false" (click)="confirmClerk()"><span class="glyphicon glyphicon-ok"></span> Confirm decision</button></p>
+      </div>
+      <div class="alert">
+        <p><strong><span class="glyphicon glyphicon-education"></span> Resolved by:</strong> {{clerk_decision?.clerk_id}}</p>
+        <p><strong><span class="glyphicon glyphicon-user"></span> Liable party:</strong> {{clerk_decision?.liable_party}}</p>
+        <p><strong><span class="glyphicon glyphicon-comment"></span> Message:</strong> {{clerk_decision?.message}}</p>
       </div>
     </div>
   </div>
@@ -60,7 +52,10 @@
   <div class="row">
     <!--Item parameters-->
     <div class="col-lg-6">
-      <div class="alert alert-info">
+      <div class="alert alert-info item-header">
+        <p><span class="glyphicon glyphicon-list"></span> <strong>General information</strong></p>
+      </div>
+      <div class="alert">
         <p><strong><span class="glyphicon glyphicon-file"></span> Item:</strong> {{item_item_params?.title}}</p>
         <p><strong><span class="glyphicon glyphicon-credit-card"></span> Price:</strong> {{item_terms?.price}} SEK</p>
         <p><strong><span class="glyphicon glyphicon-user"></span> Seller:</strong> {{item_agreement_params?.seller_id}}</p>
@@ -71,7 +66,10 @@
 
     <!--Sensor parameters-->
     <div class="col-lg-6">
-      <div class="alert alert-info">
+      <div class="alert alert-info item-header">
+        <p><span class="glyphicon glyphicon-list"></span> <strong>Sensor information</strong></p>
+      </div>
+      <div class="alert">
         <p *ngIf="item_terms?.accelerometer !== null"><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer:</strong>
           <span class="glyphicon glyphicon-arrow-up"></span> {{item_terms?.accelerometer}} G</p>
         <p *ngIf="item_terms?.accelerometer === null"><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer:</strong>

@@ -81,8 +81,10 @@
         <!--Resolvement display (for resolved agreements)-->
         <div class="row" *ngIf="agreement_resolvement != null">
           <div class="col-lg-12">
-            <div class="alert alert-warning">
-              <h4><strong>Resolvement</strong></h4>
+            <div class="alert alert-warning item-header">
+              <p><span class="glyphicon glyphicon-education"></span> <strong>Resolvement</strong></p>
+            </div>
+            <div class="alert">
               <p><span class="glyphicon glyphicon-education"></span> Resolved by: {{agreement_resolvement?.clerk_id}}</p>
               <p><span class="glyphicon glyphicon-user"></span> Liable party: {{agreement_resolvement?.liable_party}}</p>
               <p><span class="glyphicon glyphicon-comment"></span> Comment: {{agreement_resolvement?.message}}</p>
@@ -93,8 +95,10 @@
         <!--Buyer and seller informaton-->
         <div class="row">
           <div class="col-lg-6">
-            <div class="alert alert-info">
-              <h4><strong>Seller account</strong></h4>
+            <div class="alert alert-info item-header">
+              <p><span class="glyphicon glyphicon-user"></span> <strong>Seller account</strong></p>
+            </div>
+            <div class="alert">
               <p><strong><span class="glyphicon glyphicon-link"></span> </strong>{{agreement_seller_details?.account_id}}</p>
               <p><strong><span class="glyphicon glyphicon-user"></span> </strong>{{agreement_seller_details?.full_name}}</p>
               <p><strong><span class="glyphicon glyphicon-globe"></span> </strong>{{agreement_seller_details?.street_address}},
@@ -102,8 +106,10 @@
             </div>
           </div>
           <div class="col-lg-6">
-            <div class="alert alert-info">
-              <h4><strong>Buyer account</strong></h4>
+            <div class="alert alert-info item-header">
+              <p><span class="glyphicon glyphicon-user"></span> <strong>Buyer account</strong></p>
+            </div>
+            <div class="alert">
               <p><strong><span class="glyphicon glyphicon-link"></span> </strong>{{agreement_buyer_details?.account_id}}</p>
               <p><strong><span class="glyphicon glyphicon-user"></span> </strong>{{agreement_buyer_details?.full_name}}</p>
               <p><strong><span class="glyphicon glyphicon-globe"></span> </strong>{{agreement_buyer_details?.street_address}},
@@ -115,8 +121,10 @@
         <!--General information and terms-->
         <div class="row">
           <div class="col-lg-6">
-            <div class="alert alert-info">
-              <h4><strong>General information</strong></h4>
+            <div class="alert alert-info item-header">
+              <p><span class="glyphicon glyphicon-list"></span> <strong>General information</strong></p>
+            </div>
+            <div class="alert">
               <p><strong><span class="glyphicon glyphicon-file"></span> Item:</strong> {{agreement_details?.item.title}}</p>
               <p><strong><span class="glyphicon glyphicon-credit-card"></span> Price:</strong> {{agreement_terms?.price}} SEK</p>
               <p><strong><span class="glyphicon glyphicon-cog"></span> Current state:</strong> {{agreement_details?.state}}</p>
@@ -126,8 +134,10 @@
           </div>
           <!--Sensor information-->
           <div class="col-lg-6">
-            <div class="alert alert-info">
-              <h4><strong>Sensor information</strong></h4>
+            <div class="alert alert-info item-header">
+              <p><span class="glyphicon glyphicon-list"></span> <strong>Sensor information</strong></p>
+            </div>
+            <div class="alert">
               <p *ngIf="agreement_terms?.accelerometer !== null"><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer:</strong>
                 <span class="glyphicon glyphicon-arrow-up"></span> {{agreement_terms?.accelerometer}} G</p>
               <p *ngIf="agreement_terms?.accelerometer === null"><strong><span class="glyphicon glyphicon-dashboard"></span> Accelerometer:</strong>

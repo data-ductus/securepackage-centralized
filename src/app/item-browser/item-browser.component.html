@@ -16,23 +16,28 @@
       <!--Item display-->
       <div class="row" *ngFor="let item of item_display">
         <div class="col-lg-12">
-          <div class="alert alert-info" style="cursor: pointer" (click)="agreementClick(item.agreement_id)">
-            <div class="row">
-              <div class="col-lg-4">
-                <img src={{item.image}} alt="800x600" border="0" class="item_image">
-              </div>
-              <div class="col-lg-8" >
-                <div class="row">
-                  <p><strong>{{item.title}}</strong></p>
+          <div class="item-container" (click)="agreementClick(item.agreement_id)" style="cursor: pointer">
+            <div class="alert alert-info item-header">
+              <p><strong>{{item.title}}</strong></p>
+            </div>
+            <div class="alert">
+              <div class="row">
+                <div class="col-lg-4">
+                  <img src={{item.image}} alt="800x600" border="0" class="item_image">
                 </div>
-                <div class="row">
-                  <p><span class="glyphicon glyphicon-credit-card"></span> {{item.price}} SEK</p>
-                </div>
-                <div class="row">
-                  <p><span class="glyphicon glyphicon-user"></span> {{item.seller_id}}</p>
-                </div>
-                <div class="row">
-                  <p><span class="glyphicon glyphicon-time"></span> {{item.date_created}}</p>
+                <div class="col-lg-8" >
+                  <div class="row">
+                    <p><span class="glyphicon glyphicon-link"></span> {{item.agreement_id}}</p>
+                  </div>
+                  <div class="row">
+                    <p><span class="glyphicon glyphicon-user"></span> {{item.seller_id}}</p>
+                  </div>
+                  <div class="row">
+                    <p><span class="glyphicon glyphicon-credit-card"></span> {{item.price}} SEK</p>
+                  </div>
+                  <div class="row">
+                    <p><span class="glyphicon glyphicon-time"></span> {{item.date_created}}</p>
+                  </div>
                 </div>
               </div>
             </div>
